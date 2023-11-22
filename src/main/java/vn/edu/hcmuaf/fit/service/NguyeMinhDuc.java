@@ -1,0 +1,87 @@
+package vn.edu.hcmuaf.fit.service;
+
+import vn.edu.hcmuaf.fit.Database.DBConnect;
+import vn.edu.hcmuaf.fit.model.Bill;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
+public class NguyeMinhDuc {
+
+    public static List<Bill> onePageBill(int index){
+        List<Bill> list = new ArrayList<>();
+        String  query = "select id from bill  limit ?, 10";
+        try{
+            PreparedStatement ps = DBConnect.getInstance().getConnection().prepareStatement(query);
+            ps.setInt(1, (index-1)*10);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                list.add(getBill(rs.getString("id")));
+            }
+        }catch (SQLException e){
+        }
+        return list;
+    }
+
+    public static Bill getBill(String id) throws SQLException {
+        PreparedStatement prs = DBConnect.getInstance().getConnection().prepareStatement("select id_dp from detail_bill where id_bill=?");
+        prs.setString(1, id);
+        List<String> list_product = new ArrayList<String>();
+        ResultSet rs = prs.executeQuery();
+        while (rs.next()) {
+            list_product.add(rs.getString("id_dp"));
+        }
+        PreparedStatement ps = DBConnect.getInstance().getConnection().prepareStatement("select id_customer, date, status, address, phone from bill where id=?");
+        ps.setString(1, id);
+        ResultSet resultSet = ps.executeQuery();
+        if (resultSet.next()) {
+            return new Bill(id, resultSet.getDate("date"), list_product, resultSet.getString("status"), resultSet.getString("id_customer"), resultSet.getString("address"), resultSet.getString("phone"));
+        }
+        return null;
+    }
+
+    public static int getTotalBill(){
+        String query = "select count(id) from bill";
+        try{
+            PreparedStatement ps = DBConnect.getInstance().getConnection().prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                return rs.getInt(1);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static boolean checkChangeBill(String id_bill) {
+        boolean result = true;
+        try {
+            int count = 0;
+            String query = "select count(id) from employees_audit where id_bill = ?";
+            PreparedStatement ps = DBConnect.getInstance().getConnection().prepareStatement(query);
+            ps.setString(1, id_bill);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                count = rs.getInt(1);
+            }
+            if(count == 0){
+                result = true;
+            }else{
+                result = false;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+
+    public static void main(String[] args) throws SQLException {
+        System.out.println(checkChangeBill("473222912023"));
+    }
+}
