@@ -1,5 +1,7 @@
 package vn.edu.hcmuaf.fit.controller;
 
+import vn.edu.hcmuaf.fit.model.Bill;
+import vn.edu.hcmuaf.fit.service.MailService;
 import vn.edu.hcmuaf.fit.service.NguyeMinhDuc;
 import vn.edu.hcmuaf.fit.service.ProductService;
 
@@ -7,6 +9,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(name = "list-bill", value = "/list-bill")
 public class ListBill extends HttpServlet {
@@ -34,7 +37,15 @@ public class ListBill extends HttpServlet {
         request.setAttribute("pre", pre);
         request.setAttribute("next", next);
         request.setAttribute("endP", endPage);
-//            request.setAttribute("list",list);
+
+        List<Bill> bills = NguyeMinhDuc.onePageBill(index);
+        for(Bill b: bills){
+            if(!NguyeMinhDuc.checkChangeBill(b.getId())){
+                String status = "Đã hủy";
+                NguyeMinhDuc.change_status_bill(b.getId(),status);
+                MailService.sendMail("","Hủy đơn hàng","Lý do: Đơn hàng đã bị chỉnh sửa");
+            }
+        }
 
         request.setAttribute("list", NguyeMinhDuc.onePageBill(index));
         long sales = 0;

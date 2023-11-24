@@ -3,6 +3,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.service.ProductService" %>
 <%@ page import="vn.edu.hcmuaf.fit.model.NumberFormat" %>
 <%@ page import="vn.edu.hcmuaf.fit.model.Bill" %>
+<%@ page import="vn.edu.hcmuaf.fit.service.NguyeMinhDuc" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en" xmlns:x-transition="http://www.w3.org/1999/xhtml">
@@ -335,6 +336,7 @@
                 <th class="px-4 py-3">Số điện thoại</th>
                 <th class="px-4 py-3">Ngày lập đơn</th>
                 <th class="px-4 py-3">Trạng thái</th>
+                <th class="px-4 py-3">Kiểm tra đơn hàng</th>
                 <th class="px-4 py-3">Chỉnh sửa</th>
               </tr>
               </thead>
@@ -395,6 +397,15 @@
                 <td class="px-4 py-3 text-sm">
                   <a href="/Project_CuaHangMuBaoHiem_war/detail-bill?id=<%=b.getId()%>">
                   <%=b.getStatus()%>
+                  </a>
+                </td>
+                <td class="px-4 py-3 text-sm">
+                  <a href="/Project_CuaHangMuBaoHiem_war/detail-bill?id=<%=b.getId()%>">
+                    <%if(NguyeMinhDuc.checkChangeBill(b.getId())){%>
+                      <%="Bình thường"%>
+                    <%}else{%>
+                    <%="Bị thay đổi thông tin"%>
+                    <%}%>
                   </a>
                 </td>
                 <td class="px-4 py-3">

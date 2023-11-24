@@ -80,8 +80,26 @@ public class NguyeMinhDuc {
         return result;
     }
 
+    public static void change_status_bill(String id, String status){
+        try {
+            String query = "update bill set status = ? where id = ? ";
+            PreparedStatement prs = DBConnect.getInstance().getConnection().prepareStatement(query);
+            prs.setString(1,status);
+            prs.setString(2,id);
+            prs.executeUpdate();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
 
     public static void main(String[] args) throws SQLException {
-        System.out.println(checkChangeBill("473222912023"));
+        String status = "Đã chi";
+        List<Bill> bills = NguyeMinhDuc.onePageBill(1);
+        for(Bill b: bills){
+            if(!NguyeMinhDuc.checkChangeBill(b.getId())){
+                change_status_bill(b.getId(),status);
+            }
+        }
     }
 }
