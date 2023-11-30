@@ -11,6 +11,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.security.PrivateKey;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class Add_Bill extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         DigitalSignature digitalSignature = new DigitalSignature();
+        PrivateKey privateK;
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
@@ -36,14 +38,14 @@ public class Add_Bill extends HttpServlet {
         String result = digitalSignature.getInformationOrder(name, phone, address, cart);
         String message = digitalSignature.hashString(result);
         try {
-            digitalSignature.importPrivateKey(privateKey);
+            privateK = digitalSignature.importPrivateKey(privateKey);
         } catch (Exception e) {
-            request.setAttribute("error","error");
+            request.setAttribute("error","errorKey");
             request.getRequestDispatcher("checkout.jsp").forward(request,response);
             return;
         }
-        String signature = digitalSignature.encryptRSA(message);
-        if(name==""||email==""||phone==""||address==""){
+        String signature = digitalSignature.encryptRSA(message,privateK);
+        if(name==""||email==""||phone==""||address=="" || privateKey==" "){
             request.setAttribute("error","error");
             request.getRequestDispatcher("checkout.jsp").forward(request,response);
         }else{
@@ -56,7 +58,7 @@ public class Add_Bill extends HttpServlet {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-            ProductService.addBill(id_bill,id_cus,"Đang gửi",id_dp,address,phone, signature);
+            ProductService.addBill(id_bill,id_cus,"Đang gửi",id_dp,address,phone, signature, digitalSignature.getPublicKey(id_cus));
             cart.getCart().clear();
             cart.setTotal(0);
             cart.setQuantity(0);

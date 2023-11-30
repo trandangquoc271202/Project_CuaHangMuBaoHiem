@@ -36,9 +36,9 @@ public class CheckSignature extends HttpServlet {
             request.setAttribute("error","error");
             request.getRequestDispatcher("checkout.jsp").forward(request,response);
         }
-        String signature = digitalSignature.encryptRSA(message);
+//        String signature = digitalSignature.encryptRSA(digitalSignature.importPrivateKey(privateKey););
         out.write(result);
-        out.write(signature);
+//        out.write(signature);
     }
 
     @Override
