@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.controller;
 
+import vn.edu.hcmuaf.fit.DigitalSignature.DigitalSignature;
 import vn.edu.hcmuaf.fit.model.Cart;
 import vn.edu.hcmuaf.fit.model.Customer;
 import vn.edu.hcmuaf.fit.model.Product;
@@ -21,15 +22,27 @@ import java.util.List;
 public class Add_Bill extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        DigitalSignature digitalSignature = new DigitalSignature();
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
         String address = request.getParameter("address");
+        String privateKey = request.getParameter("privateKey");
         Cart cart = (Cart) request.getSession().getAttribute("cart");
         List<String> id_dp = new ArrayList<String>();
         for(Product p: cart.getListProduct()){
             id_dp.add(p.getDetail().get(0).getId());
         }
+        String result = digitalSignature.getInformationOrder(name, phone, address, cart);
+        String message = digitalSignature.hashString(result);
+        try {
+            digitalSignature.importPrivateKey(privateKey);
+        } catch (Exception e) {
+            request.setAttribute("error","error");
+            request.getRequestDispatcher("checkout.jsp").forward(request,response);
+            return;
+        }
+        String signature = digitalSignature.encryptRSA(message);
         if(name==""||email==""||phone==""||address==""){
             request.setAttribute("error","error");
             request.getRequestDispatcher("checkout.jsp").forward(request,response);
@@ -43,7 +56,7 @@ public class Add_Bill extends HttpServlet {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-            ProductService.addBill(id_bill,id_cus,"Đang gửi",id_dp,address,phone);
+            ProductService.addBill(id_bill,id_cus,"Đang gửi",id_dp,address,phone, signature);
             cart.getCart().clear();
             cart.setTotal(0);
             cart.setQuantity(0);

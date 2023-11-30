@@ -92,7 +92,10 @@
                             <label>Địa chỉ</label>
                             <input name="address" class="form-control" value="<%=address%>" type="text" placeholder="">
                         </div>
-
+                        <div class="col-md-6 form-group">
+                            <label>Private Key</label>
+                            <input name="privateKey" class="form-control" type="password" placeholder="">
+                        </div>
                     </div>
                     <div><span id="error" class="error"><%=error%></span></div>
                     <div><small style="color: red;">* Thanh toán khi nhận hàng</small></div>
