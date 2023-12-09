@@ -11,6 +11,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.security.PrivateKey;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -23,6 +24,10 @@ import java.util.List;
 public class Add_Bill extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         DigitalSignature digitalSignature = new DigitalSignature();
         PrivateKey privateK;
         String name = request.getParameter("name");
@@ -48,9 +53,9 @@ public class Add_Bill extends HttpServlet {
         if(name==""||email==""||phone==""||address=="" || privateKey==" "){
             request.setAttribute("error","error");
             request.getRequestDispatcher("checkout.jsp").forward(request,response);
-        }else{
+        }else {
             LocalDateTime date = LocalDateTime.now();
-            String id_bill = date.getSecond()+"-"+date.getMinute()+"-"+date.getHour()+"-"+date.getDayOfMonth()+"-"+date.getMonth()+"-"+date.getYear();
+            String id_bill = date.getSecond() + "-" + date.getMinute() + "-" + date.getHour() + "-" + date.getDayOfMonth() + "-" + date.getMonth() + "-" + date.getYear();
             String username = (String) request.getSession().getAttribute("tendangnhap");
             String id_cus = "";
             try {
@@ -58,30 +63,26 @@ public class Add_Bill extends HttpServlet {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-            ProductService.addBill(id_bill,id_cus,"Đang gửi",id_dp,address,phone, signature, digitalSignature.getPublicKey(id_cus));
+            ProductService.addBill(id_bill, id_cus, "Đang gửi", id_dp, address, phone, signature, digitalSignature.getPublicKey(id_cus));
             cart.getCart().clear();
             cart.setTotal(0);
             cart.setQuantity(0);
-            request.setAttribute("name",name);
-            request.setAttribute("email",email);
-            request.setAttribute("phone",phone);
-            request.setAttribute("address",address);
-            request.setAttribute("id_bill",id_bill);
-            request.setAttribute("list",id_dp);
+            request.setAttribute("name", name);
+            request.setAttribute("email", email);
+            request.setAttribute("phone", phone);
+            request.setAttribute("address", address);
+            request.setAttribute("id_bill", id_bill);
+            request.setAttribute("list", id_dp);
+            String content = result + "\n" + signature;
+            request.setAttribute("billFile", content);
             String conttent_recive = "";
-            conttent_recive+=id_bill+"\n"+name+"\n"+email+"\n"+phone+"\n"+address+"\n"+"Tuy cập vào đây nếu giao hàng thành công"+"\n"+"http://localhost:8080/Project_CuaHangMuBaoHiem_war/ReciveProduct?id_bill="+id_bill;
-            MailService.sendMail("20130233@st.hcmuaf.edu.vn","Giao hàng",conttent_recive);
+            conttent_recive += id_bill + "\n" + name + "\n" + email + "\n" + phone + "\n" + address + "\n" + "Tuy cập vào đây nếu giao hàng thành công" + "\n" + "http://localhost:8080/Project_CuaHangMuBaoHiem_war/ReciveProduct?id_bill=" + id_bill;
+            MailService.sendMail("20130233@st.hcmuaf.edu.vn", "Giao hàng", conttent_recive);
             String conttent_cancel = "";
-            conttent_cancel+=id_bill+"\n"+name+"\n"+email+"\n"+phone+"\n"+address+"\n"+"Tuy cập vào đây nếu muốn hủy hàng"+"\n"+"http://localhost:8080/Project_CuaHangMuBaoHiem_war/CancelProduct?id_bill="+id_bill;
-            MailService.sendMail(email,"Helmetsshop",conttent_cancel);
-            MailService.sendMail("20130233@st.hcmuaf.edu.vn","Giao hàng",conttent_recive);
-            request.getRequestDispatcher("detail_bill.jsp").forward(request,response);
+            conttent_cancel += id_bill + "\n" + name + "\n" + email + "\n" + phone + "\n" + address + "\n" + "Tuy cập vào đây nếu muốn hủy hàng" + "\n" + "http://localhost:8080/Project_CuaHangMuBaoHiem_war/CancelProduct?id_bill=" + id_bill;
+            MailService.sendMail(email, "Helmetsshop", conttent_cancel);
+            MailService.sendMail("20130233@st.hcmuaf.edu.vn", "Giao hàng", conttent_recive);
+            request.getRequestDispatcher("detail_bill.jsp").forward(request, response);
         }
-
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
     }
 }
