@@ -78,7 +78,7 @@
                     address = address == null ? "" : address;
                     if (error == "errorKey") error = "Private Key không hợp lệ";
                 %>
-                <form action="/Project_CuaHangMuBaoHiem_war/add_bill" method="get">
+                <form action="/Project_CuaHangMuBaoHiem_war/add_bill" method="post">
                     <div class="row">
                         <div class="col-md-6 form-group">
                             <label>Tên</label>

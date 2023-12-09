@@ -30,13 +30,13 @@ public class CheckSignature extends HttpServlet {
         }
         String result = digitalSignature.getInformationOrder(name, phone, address, cart);
         String message = digitalSignature.hashString(result);
-        try {
-            digitalSignature.importPrivateKey(privateKey);
-        } catch (Exception e) {
-            request.setAttribute("error","error");
-            request.getRequestDispatcher("checkout.jsp").forward(request,response);
-        }
-//        String signature = digitalSignature.encryptRSA(digitalSignature.importPrivateKey(privateKey););
+//        try {
+//            digitalSignature.importPrivateKey(privateKey);
+//        } catch (Exception e) {
+//            request.setAttribute("error","error");
+//            request.getRequestDispatcher("checkout.jsp").forward(request,response);
+//        }
+////        String signature = digitalSignature.encryptRSA(digitalSignature.importPrivateKey(privateKey););
         out.write(result);
 //        out.write(signature);
     }

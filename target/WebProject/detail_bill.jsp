@@ -2,122 +2,142 @@
 <%@ page import="vn.edu.hcmuaf.fit.model.Product" %>
 <%@ page import="vn.edu.hcmuaf.fit.service.ProductService" %>
 <%@ page import="vn.edu.hcmuaf.fit.model.NumberFormat" %>
+<%@ page import="java.net.URLEncoder" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 
 <head>
-  <meta charset="utf-8">
-  <title>HelmetsShop</title>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <meta content="Free HTML Templates" name="keywords">
-  <meta content="Free HTML Templates" name="description">
+    <meta charset="utf-8">
+    <title>HelmetsShop</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
 
-  <!-- Favicon -->
-  <link href="img/favicon.ico" rel="icon">
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
 
-  <!-- Google Web Fonts -->
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
-  <!-- Font Awesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
-  <!-- Libraries Stylesheet -->
-  <link href="lib/animate/animate.min.css" rel="stylesheet">
-  <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
-  <!-- Customized Bootstrap Stylesheet -->
-  <link href="css/style.css" rel="stylesheet">
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
 </head>
 
 <body>
-
 <!-- Header Star -->
-<%@include file="header.jsp"%>
+<%@include file="header.jsp" %>
 <!-- Header End -->
 
 
 <!-- Breadcrumb Start -->
 <div class="container-fluid">
-  <div class="row px-xl-5">
-    <div class="col-12">
-      <nav class="breadcrumb bg-light mb-30">
-        <a class="breadcrumb-item text-dark" href="index.html">Trang Chủ</a>
-        <a class="breadcrumb-item text-dark" href="#">Cửa hàng</a>
-        <span class="breadcrumb-item active">Thanh Toán</span>
-      </nav>
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark" href="index.html">Trang Chủ</a>
+                <a class="breadcrumb-item text-dark" href="#">Cửa hàng</a>
+                <span class="breadcrumb-item active">Thanh Toán</span>
+            </nav>
+        </div>
     </div>
-  </div>
 </div>
 <!-- Breadcrumb End -->
 
 
 <!-- Checkout Start -->
-    </div>
-    <div class="col-lg-4" style="margin: auto">
-      <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">ĐƠN ĐẶT HÀNG</span></h5>
-      <div class="bg-light p-30 mb-5">
+</div>
+<div class="col-lg-4" style="margin: auto">
+    <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">ĐƠN ĐẶT HÀNG</span>
+    </h5>
+    <div class="bg-light p-30 mb-5">
         <div class="border-bottom">
-          <h6 class="mb-3">Thông tin người mua</h6>
-          <div class="d-flex justify-content-between">
-            <p>Tên</p>
-            <p><%=request.getAttribute("name")%></p>
-          </div>
-          <div class="d-flex justify-content-between">
-            <p>Số điện thoại</p>
-            <p><%=request.getAttribute("phone")%></p>
-          </div>
-          <div class="d-flex justify-content-between">
-            <p>Email</p>
-            <p><%=request.getAttribute("email")%></p>
-          </div>
-          <div class="d-flex justify-content-between">
-            <p>Địa chỉ</p>
-            <p><%=request.getAttribute("address")%></p>
-          </div>
-          <h6 class="mb-3">Các sản phẩm</h6>
-          <%
-            List<String> list = (List<String>)request.getAttribute("list");
-            NumberFormat nf = new NumberFormat();
-            for(String s: list){
-              Product p = ProductService.getProduct(ProductService.getIdProductByIddp(s));
-          %>
-          <div class="d-flex justify-content-between">
-            <p><%=p.getName()%></p>
-            <p><%=nf.numberFormat(p.getPrice()-p.getPrice()*(long)p.getDiscount())%>đ</p>
-          </div>
-          <%}%>
+            <h6 class="mb-3">Thông tin người mua</h6>
+            <div class="d-flex justify-content-between">
+                <p>Tên</p>
+                <p><%=request.getAttribute("name")%>
+                </p>
+            </div>
+            <div class="d-flex justify-content-between">
+                <p>Số điện thoại</p>
+                <p><%=request.getAttribute("phone")%>
+                </p>
+            </div>
+            <div class="d-flex justify-content-between">
+                <p>Email</p>
+                <p><%=request.getAttribute("email")%>
+                </p>
+            </div>
+            <div class="d-flex justify-content-between">
+                <p>Địa chỉ</p>
+                <p><%=request.getAttribute("address")%>
+                </p>
+            </div>
+            <h6 class="mb-3">Các sản phẩm</h6>
+            <%
+                List<String> list = (List<String>) request.getAttribute("list");
+                NumberFormat nf = new NumberFormat();
+                for (String s : list) {
+                    Product p = ProductService.getProduct(ProductService.getIdProductByIddp(s));
+            %>
+            <div class="d-flex justify-content-between">
+                <p><%=p.getName()%>
+                </p>
+                <p><%=nf.numberFormat(p.getPrice() - p.getPrice() * (long) p.getDiscount())%>đ</p>
+            </div>
+            <%}%>
 
         </div>
         <div class="border-bottom pt-3 pb-2">
-          <div class="d-flex justify-content-between mb-3">
-            <h6>Tổng tiền hàng</h6>
-            <%
-              long price = 0;
-              for(String s:list){
-                Product p = ProductService.getProduct(ProductService.getIdProductByIddp(s));
-                price += p.getPrice()-p.getPrice()*(long)p.getDiscount();
-              }%>
-            <h6><%=nf.numberFormat(price)%>đ</h6>
-          </div>
-          <div class="d-flex justify-content-between">
-            <h6 class="font-weight-medium">Phí vận chuyển</h6>
-            <h6 class="font-weight-medium">50.000đ</h6>
-          </div>
+            <div class="d-flex justify-content-between mb-3">
+                <h6>Tổng tiền hàng</h6>
+                <%
+                    long price = 0;
+                    for (String s : list) {
+                        Product p = ProductService.getProduct(ProductService.getIdProductByIddp(s));
+                        price += p.getPrice() - p.getPrice() * (long) p.getDiscount();
+                    }%>
+                <h6><%=nf.numberFormat(price)%>đ</h6>
+            </div>
+            <div class="d-flex justify-content-between">
+                <h6 class="font-weight-medium">Phí vận chuyển</h6>
+                <h6 class="font-weight-medium">50.000đ</h6>
+            </div>
         </div>
         <div class="pt-2">
-          <div class="d-flex justify-content-between mt-2">
-            <h5>Tổng thanh toán</h5>
-            <h5><%=nf.numberFormat(price+50000)%>đ</h5>
-          </div>
+            <div class="d-flex justify-content-between mt-2">
+                <h5>Tổng thanh toán</h5>
+                <h5><%=nf.numberFormat(price + 50000)%>đ</h5>
+            </div>
         </div>
-      </div>
-      <div>
-      <a href="/Project_CuaHangMuBaoHiem_war/Home"><button style="background: #FFD333;font-weight: bold;margin-left: 62px;color: white ;border:0;height: 50px; width: 180px">VỀ TRANG CHỦ</button></a>
-
-        <a href="/Project_CuaHangMuBaoHiem_war/cancel_bill?id=<%=request.getAttribute("id_bill")%>"><button onclick="cancel()" id="delete_bill" style="background: red;font-weight: bold;margin-left: 47px;color: white ;border: 0;height: 50px; width: 180px">HỦY ĐƠN ĐẶT HÀNG</button></a>
     </div>
-  </div>
+    <div>
+        <%String encodedText = URLEncoder.encode(request.getAttribute("billFile").toString(), "UTF-8");%>
+        <a href="/Project_CuaHangMuBaoHiem_war/DownloadBill?bill=<%=encodedText%>" class="nav-item nav-link">
+            <i class="fas fa-download text-primary"></i>
+            <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
+        </a>
+        <a href="/Project_CuaHangMuBaoHiem_war/Home">
+            <button style="background: #FFD333;font-weight: bold;margin-left: 62px;color: white ;border:0;height: 50px; width: 180px">
+                VỀ TRANG CHỦ
+            </button>
+        </a>
+
+        <a href="/Project_CuaHangMuBaoHiem_war/cancel_bill?id=<%=request.getAttribute("id_bill")%>">
+            <button onclick="cancel()" id="delete_bill"
+                    style="background: red;font-weight: bold;margin-left: 47px;color: white ;border: 0;height: 50px; width: 180px">
+                HỦY ĐƠN ĐẶT HÀNG
+            </button>
+        </a>
+    </div>
+</div>
 </div>
 
 <!-- Checkout End -->
@@ -143,10 +163,10 @@
 <!-- Template Javascript -->
 <script src="js/main.js"></script>
 <script>
-  function cancel() {
-    document.getElementById('delete_bill').style.backgroundColor = 'gray';
-    document.getElementById('delete_bill').innerHTML = "ĐÃ HỦY"
-  }
+    function cancel() {
+        document.getElementById('delete_bill').style.backgroundColor = 'gray';
+        document.getElementById('delete_bill').innerHTML = "ĐÃ HỦY"
+    }
 </script>
 </body>
 
