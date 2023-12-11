@@ -55,6 +55,7 @@ public class Add_Bill extends HttpServlet {
             request.getRequestDispatcher("checkout.jsp").forward(request,response);
         }else {
             LocalDateTime date = LocalDateTime.now();
+
             String id_bill = date.getSecond() + "-" + date.getMinute() + "-" + date.getHour() + "-" + date.getDayOfMonth() + "-" + date.getMonth() + "-" + date.getYear();
             String username = (String) request.getSession().getAttribute("tendangnhap");
             String id_cus = "";

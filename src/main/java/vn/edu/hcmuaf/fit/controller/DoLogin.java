@@ -2,6 +2,8 @@ package vn.edu.hcmuaf.fit.controller;
 
 import vn.edu.hcmuaf.fit.model.Customer;
 import vn.edu.hcmuaf.fit.service.CustomerService;
+import vn.edu.hcmuaf.fit.service.NguyeMinhDuc;
+import vn.edu.hcmuaf.fit.service.ProductService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,14 +34,14 @@ public class DoLogin extends HttpServlet {
                 request.setAttribute("error", "Tài khoản đã bị khóa.");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             } else if (CustomerService.checkLogin(username, CustomerService.toMD5(password)) == true) {
+                String id_customer = ProductService.getIdCusByUserName(username);
+                int permission = NguyeMinhDuc.getCustomer(id_customer).getPermission();
+                String name = NguyeMinhDuc.getCustomer(id_customer).getName();
                 session.setAttribute("tendangnhap", username);
+                session.setAttribute("tennguoidung", name);
+                session.setAttribute("permission", permission);
                 Customer customer = CustomerService.customer(username);
-                if (customer.getPermission() == 0){
-                    response.sendRedirect("/Project_CuaHangMuBaoHiem_war/Home");
-                }else {
-
-                    response.sendRedirect("ManageProduct");
-                }
+                response.sendRedirect("/Project_CuaHangMuBaoHiem_war/Home");
             } else {
                 request.setAttribute("error", "Người dùng nhập không đúng Tên đăng nhập hoặc Mật khẩu.");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
