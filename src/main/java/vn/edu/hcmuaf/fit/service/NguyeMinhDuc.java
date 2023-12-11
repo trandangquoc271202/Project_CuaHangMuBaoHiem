@@ -1,8 +1,11 @@
 package vn.edu.hcmuaf.fit.service;
 
 import vn.edu.hcmuaf.fit.Database.DBConnect;
+import vn.edu.hcmuaf.fit.DigitalSignature.DigitalSignature;
 import vn.edu.hcmuaf.fit.model.Bill;
+import vn.edu.hcmuaf.fit.model.Cart;
 import vn.edu.hcmuaf.fit.model.Customer;
+import vn.edu.hcmuaf.fit.model.Product;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -116,14 +119,81 @@ public class NguyeMinhDuc {
         return c;
     }
 
+    public static Cart billToCart(String id_bill){
+        Cart cart = new Cart();
+           try{
+               String queryListProduct = "select id_dp from detail_bill where id_bill = ?";
+               PreparedStatement prs = DBConnect.getInstance().getConnection().prepareStatement(queryListProduct);
+               prs.setString(1,id_bill);
+               ResultSet rs = prs.executeQuery();
+               List<String> list = new ArrayList<String>();
+               while(rs.next()){
+                   list.add(rs.getString(1));
+               }
+               for(String s: list){
+                    cart.put(ProductService.getDetailProduct(id_product(s)));
+               }
+
+           }catch (SQLException e){
+               e.printStackTrace();
+           }
+        return cart;
+    }
+
+    public static boolean check_identify(String id_bill){
+        boolean result = false;
+        try{
+            String public_key = "";
+            String digital_signature = "";
+            String id_customer = "";
+            String username = "";
+            String phonename = "";
+            String address = "";
+            String query = "select public_key, digital_signature, id_customer from bill where id = ?";
+            PreparedStatement prs = DBConnect.getInstance().getConnection().prepareStatement(query);
+            prs.setString(1,id_bill);
+            ResultSet rs = prs.executeQuery();
+            if (rs.next()){
+                public_key += rs.getString("public_key");
+                digital_signature += rs.getString("digital_signature");
+                id_customer += rs.getString("id_customer");
+                username = ProductService.getCustomer(id_customer).getUsername();
+                phonename = ProductService.getCustomer(id_customer).getPhone();
+                address = ProductService.getCustomer(id_customer).getAddress();
+            }
+            if(!digital_signature.equals("")){
+                DigitalSignature dig = new DigitalSignature();
+                String infoBill = dig.getInformationOrder(username,phonename,address,billToCart(id_bill));
+                String encriptBill = dig.hashString(infoBill);
+                String sign_electric = dig.decryptRSA(digital_signature,dig.importKeyPublic(public_key));
+                if(encriptBill.equals(sign_electric)){
+                    result = true;
+                }
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static String id_product(String id_dp){
+        String id_p = "";
+        try{
+            String queryListProduct = "select id_product from detail_product where id_dp = ?";
+            PreparedStatement prs = DBConnect.getInstance().getConnection().prepareStatement(queryListProduct);
+            prs.setString(1,id_dp);
+            ResultSet rs = prs.executeQuery();
+            if(rs.next()){
+                id_p+=rs.getString(1);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return id_p;
+    }
 
     public static void main(String[] args) throws SQLException {
-        String status = "Đã chi";
-        List<Bill> bills = NguyeMinhDuc.onePageBill(1);
-        for(Bill b: bills){
-            if(!NguyeMinhDuc.checkChangeBill(b.getId())){
-                change_status_bill(b.getId(),status);
-            }
-        }
+        System.out.println(check_identify("52-5-2-1-DECEMBER-2023"));
     }
 }
