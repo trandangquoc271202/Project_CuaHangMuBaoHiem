@@ -540,7 +540,7 @@ public class ProductService {
         }
         return c;
     }
-    public static void addBill(String id,String id_Customer,String status, List<String> id_dp,String address, String phone){
+    public static void addBill(String id,String id_Customer,String status, List<String> id_dp,String address, String phone,String signature,int public_key){
         try {
 
             Date date = new Date();
@@ -548,13 +548,15 @@ public class ProductService {
             if(resultSet.next()){
                 date = resultSet.getDate(1);
             }
-            PreparedStatement prs = DBConnect.getInstance().getConnection().prepareStatement("INSERT into bill values(?,?,?,?,?,?)");
+            PreparedStatement prs = DBConnect.getInstance().getConnection().prepareStatement("INSERT into bill(id, id_customer, date, status, address, phone, public_key,digital_signature) values(?,?,?,?,?,?,?,?)");
             prs.setString(1, id);
             prs.setString(2,id_Customer);
             prs.setDate(3, (java.sql.Date) date);
             prs.setString(4,status);
             prs.setString(5,address);
             prs.setString(6,phone);
+            prs.setInt(7,public_key);
+            prs.setString(8,signature);
             prs.executeUpdate();
             PreparedStatement ps = DBConnect.getInstance().getConnection().prepareStatement("INSERT into detail_bill values(?,?)");
             for (String i:id_dp){
@@ -1378,7 +1380,4 @@ public class ProductService {
         return result;
     }
 
-    public static void main(String[] args) {
-        System.out.println(getListBillByIdCustomer("ad_quoc"));
-    }
 }
