@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.fit.service;
 
 import vn.edu.hcmuaf.fit.Database.DBConnect;
 import vn.edu.hcmuaf.fit.model.Bill;
+import vn.edu.hcmuaf.fit.model.Customer;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -90,6 +91,29 @@ public class NguyeMinhDuc {
         }catch (SQLException e){
             e.printStackTrace();
         }
+    }
+
+    public static Customer getCustomer(String idc){
+        Customer c = new Customer();
+        try{
+            PreparedStatement ps = DBConnect.getInstance().getConnection().prepareStatement("select name,email,phone,address,username,password,permission from customer where id_customer=?");
+            ps.setString(1,idc);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                c.setId_customer(idc);
+                c.setName(rs.getString("name"));
+                c.setEmail(rs.getString("email"));
+                c.setPhone(rs.getString("phone"));
+                c.setAddress(rs.getString("address"));
+                c.setUsername(rs.getString("username"));
+                c.setPassword(rs.getString("password"));
+                c.setPermission(Integer.valueOf(rs.getString("permission")));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return c;
     }
 
 
