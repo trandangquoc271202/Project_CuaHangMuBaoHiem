@@ -42,13 +42,13 @@ public class CustomerService {
 
     public static void changePassword(String username, String pass_old, String pass_new) throws SQLException {
         DBConnect dbConnect = DBConnect.getInstance();
-        String sql = "select username, password from customer where username = ? and password = ?";
+        String sql = "select username, email, password, name from customer where username = ? and password = ?";
         PreparedStatement pre = dbConnect.getConnection().prepareStatement(sql);
         pre.setString(1, username);
         pre.setString(2, pass_old);
         ResultSet rs = pre.executeQuery();
         if (rs.next()) {
-            StringBuilder sb = new StringBuilder("Xin chào " + rs.getString("username") + ", \n");
+            StringBuilder sb = new StringBuilder("Xin chào " + rs.getString("name") + ", \n");
             sb.append("Mật khẩu của bạn đã được thay đổi thành công vào " + LocalDate.now() + " lúc " + LocalTime.now() + ". \n\n\n");
             sb.append("Trân trọng cảm ơn! \n");
             sb.append("Đội ngũ bảo mật HelmetShop.");
@@ -68,16 +68,16 @@ public class CustomerService {
     public static void resetPassword(String email) throws SQLException {
         DBConnect dbConnect = DBConnect.getInstance();
         String password = GetRandom();
-        String sql = "select email, password from customer where email = ?";
+        String sql = "select username, email, password, name from customer where email = ?";
         PreparedStatement pre = dbConnect.getConnection().prepareStatement(sql);
         pre.setString(1, email);
         ResultSet rs = pre.executeQuery();
         if (rs.next()) {
 //            String content = "Xin chào " + rs.getString("username") + ", \n" + "Chúng tôi đã nhận được thông báo cấp lại mật khẩu từ bạn. " + password + " là mật khẩu đặt lại HelmetShop của bạn.";
 //            sb.append("Mật khẩu của bạn đã được thay đổi vào " + LocalDate.now() + " lúc " + LocalTime.now() +". \n");
-            StringBuilder sb = new StringBuilder("Xin chào " + rs.getString("username") + ", \n");
+            StringBuilder sb = new StringBuilder("Xin chào " + rs.getString("name") + ", \n");
             sb.append("Chúng tôi đã nhận được thông báo cấp lại mật khẩu từ bạn. ");
-            sb.append(password + " là mật khẩu đặt lại HelmetShop của bạn. \n\n\n");
+            sb.append("<b>" + password + "</b> là mật khẩu đặt lại HelmetShop của bạn. \n\n\n");
             sb.append("Trân trọng cảm ơn! \n");
             sb.append("Đội ngũ bảo mật HelmetShop.");
             MailService.sendMail(email, "Đặt lại mật khẩu - HelmetShop", sb.toString());

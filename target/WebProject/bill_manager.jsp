@@ -336,6 +336,7 @@
                 <th class="px-4 py-3">Số điện thoại</th>
                 <th class="px-4 py-3">Ngày lập đơn</th>
                 <th class="px-4 py-3">Trạng thái</th>
+                <th class="px-4 py-3">Xác minh đơn hàng</th>
                 <th class="px-4 py-3">Kiểm tra đơn hàng</th>
                 <th class="px-4 py-3">Chỉnh sửa</th>
               </tr>
@@ -397,6 +398,15 @@
                 <td class="px-4 py-3 text-sm">
                   <a href="/Project_CuaHangMuBaoHiem_war/detail-bill?id=<%=b.getId()%>">
                   <%=b.getStatus()%>
+                  </a>
+                </td>
+                <td class="px-4 py-3 text-sm">
+                  <a href="/Project_CuaHangMuBaoHiem_war/detail-bill?id=<%=b.getId()%>">
+                    <%if(NguyeMinhDuc.check_identify(b.getId())){%>
+                    <%="Đã xác minh"%>
+                    <%}else{%>
+                    <%="Chưa được xác minh"%>
+                    <%}%>
                   </a>
                 </td>
                 <td class="px-4 py-3 text-sm">

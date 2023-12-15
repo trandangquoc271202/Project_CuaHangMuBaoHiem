@@ -45,7 +45,7 @@ To change this template use File | Settings | File Templates.
 <% String success = (String) request.getAttribute("success");%>
 <div class="form-container bg-dangnhap">
     <div class="form-login">
-        <form action="/Project_CuaHangMuBaoHiem_war/DoResetPassword">
+        <form action="/Project_CuaHangMuBaoHiem_war/DoResetPassword" method="post">
             <div class="title">Đặt lại mật khẩu</div>
             <span style="color: green; font-size: 18px;"><%=(success != null && success != "") ? success : ""%>
                 </span>

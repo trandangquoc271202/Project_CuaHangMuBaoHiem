@@ -78,7 +78,6 @@ To change this template use File | Settings | File Templates.
                     <input type="password" id="password" class="form-control" placeholder="Mật khẩu" name="password">
                     <p style="color: red">Mật khẩu phải chứa tối thiểu 6 ký tự.</p>
                 </div>
-                F
                 <div class="form-group">
                     <div class="icon d-flex align-items-center justify-content-center">
                         <span class="fa-solid fa-lock"></span></div>
