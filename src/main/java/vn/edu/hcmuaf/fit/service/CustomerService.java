@@ -58,11 +58,20 @@ public class CustomerService {
         }
     }
 
-    public static void addCustomer(String username, String password, String name, String email) throws SQLException {
+    public static void addCustomer(String username, String password, String name, String email, String publicKey) throws SQLException {
         DBConnect dbConnect = DBConnect.getInstance();
-//        String sql = "insert into customer values ('" + GetKey() + "'," + "'" + name + "'," + "'" + email + "', null," + "null,'" + username + "'," + "'" + password + "',0,1," + "'" + LocalDateTime.now() + "')";
-        String sql = "insert into customer values ('" + GetKey() + "','" + name + "','" + email + "', null,null,'" + username + "','" + password + "',0,1,'" + LocalDateTime.now() + "')";
+        String idCustomer = GetKey();
+        String sql = "insert into customer values ('" + idCustomer + "','" + name + "','" + email + "', null,null,'" + username + "','" + password + "',0,1,'" + LocalDateTime.now() + "')";
+        int idSerial = 1;
+        String getSerial = "select id from public_key order by id desc limit 1";
+        PreparedStatement pre = dbConnect.getConnection().prepareStatement(getSerial);
+        ResultSet rs = pre.executeQuery();
+        if (rs.next()) {
+            idSerial = rs.getInt("id") + 1;
+        }
+        String addPublicKey = "insert into public_key values ('" + idSerial + "','" + idCustomer + "','" + publicKey + "','" + LocalDateTime.now() + "','" + LocalDateTime.of(9999,12,31,23,59,59) + "','" + "1" + "')";
         dbConnect.get().executeUpdate(sql);
+        dbConnect.get().executeUpdate(addPublicKey);
     }
 
     public static void resetPassword(String email) throws SQLException {
@@ -112,6 +121,19 @@ public class CustomerService {
             isLogin = true;
         }
         return isLogin;
+    }
+
+    public static boolean checkPublicKey(String public_key) throws SQLException {
+        boolean isPublicKey = false;
+        DBConnect dbConnect = DBConnect.getInstance();
+        String sql = "select public_key from public_key where public_key = ?";
+        PreparedStatement pre = dbConnect.getConnection().prepareStatement(sql);
+        pre.setString(1, public_key);
+        ResultSet rs = pre.executeQuery();
+        if (rs.next()) {
+            isPublicKey = true;
+        }
+        return isPublicKey;
     }
 
     public static boolean checkUsername(String username) throws SQLException {

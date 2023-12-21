@@ -42,13 +42,14 @@ To change this template use File | Settings | File Templates.
 
 <!-- Login Start -->
 <% String error = (String) request.getAttribute("error");%>
-<% String success = (String) request.getAttribute("success");%>
+<% String   success = (String) request.getAttribute("success");%>
 <% String name = (String) request.getParameter("name");%>
 <% String email = (String) request.getParameter("email");%>
 <% String username = (String) request.getParameter("username");%>
+<% String public_key = (String) request.getParameter("public_key");%>
+<% String private_key = (String) request.getParameter("private_key");%>
 <section>
-    <div class="form-container "
-         style="background: url('//localhost:8080/Project_CuaHangMuBaoHiem_war/img/login/nendangnhap.png')">
+    <div class="form-container">
         <div class="form-login">
             <form action="/Project_CuaHangMuBaoHiem_war/doRegister" method="post">
                 <div class="title">Đăng ký</div>
@@ -85,8 +86,23 @@ To change this template use File | Settings | File Templates.
                            name="confirm_pw">
                     <p style="color: red">Mật khẩu xác nhận phải trùng với mật khẩu mới.</p>
                 </div>
-
                 <div class="form-group">
+                    <div class="icon d-flex align-items-center justify-content-center">
+                        <span class="fas fa-key"></span></div>
+                    <input type="text" value="<%=(public_key!=null && public_key!="")? public_key:""%>" class="form-control"
+                           placeholder="Nhập khóa Công khai" name="public_key" id="public_key">
+                </div>
+                <div class="form-group">
+                    <div class="icon d-flex align-items-center justify-content-center">
+                        <span class="fas fa-key"></span></div>
+                    <input type="text" value="<%=(private_key!=null && private_key!="")? private_key:""%>" class="form-control"
+                           placeholder="Nhập khóa Riêng tư" name="private_key" id="private_key">
+                </div>
+                <div class="form-group d-flex">
+                    <div id="genKey" type="button" class="btn-key p-2">Tự động tạo khóa</div>
+                    <a id="downloadKey" type="button" class="btn-key p-2" href="#">Tải file khóa</a>
+                </div>
+                <div class="form-group d-flex">
                     <button type="submit" id="submit"> Đăng ký</button>
                 </div>
                 <span style="color: red; font-size: 18px;"><%=(error != null && error != "") ? error : ""%>
@@ -123,6 +139,8 @@ To change this template use File | Settings | File Templates.
 <!-- Template Javascript -->
 <script src="js/main.js"></script>
 <script src="js/valid.js" charset="utf-8"></script>
+<script src="js/generateKey.js"></script>
+<script src="js/downloadFileKey.js"></script>
 </body>
 
 </html>
