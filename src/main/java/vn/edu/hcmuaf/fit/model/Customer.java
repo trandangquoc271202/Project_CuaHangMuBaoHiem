@@ -29,10 +29,10 @@ public class Customer implements Serializable {
         this.permission = permission;
         this.active = active;
         this.create_date = create_date;
-
     }
 
-    public Customer(String name, String email, String phone, String address, int permission) {
+    public Customer(String id_customer, String name, String email, String phone, String address, int permission) {
+        this.id_customer = id_customer;
         this.name = name;
         this.email = email;
         this.phone = phone;

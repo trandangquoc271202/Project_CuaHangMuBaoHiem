@@ -1,11 +1,12 @@
 .form-container{
-    width: 900px;
+    width: 1080px;
     margin: auto;
     font-size: 14px;
     justify-content: center;
     padding: 40px;
     border-radius: 5px;
-    background-image: url("//localhost:8080/Project_CuaHangMuBaoHiem_war/img/login/nendangnhap.png");
+    background: #3D464D;
+    /*background-image: url("//localhost:8080/Project_CuaHangMuBaoHiem_war/img/login/nendangnhap.png");*/
     /*opacity: 0.5;*/
 }
 
@@ -65,6 +66,14 @@
     color: #FFD333;
     background-color: whitesmoke;
     border: 1px solid #FFD333;
+}
+.form-group .btn-key{
+    font-size: 16px;
+    text-decoration: none;
+}
+.form-group .btn-key:hover{
+    color: #FFD333;
+    font-weight: bold;
 }
 .form-footer{
     padding-top: 20px;

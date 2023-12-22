@@ -3,11 +3,13 @@ package vn.edu.hcmuaf.fit.service;
 import org.apache.commons.codec.digest.DigestUtils;
 import vn.edu.hcmuaf.fit.Database.DBConnect;
 import vn.edu.hcmuaf.fit.model.Customer;
+import vn.edu.hcmuaf.fit.model.FormData;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -58,11 +60,20 @@ public class CustomerService {
         }
     }
 
-    public static void addCustomer(String username, String password, String name, String email) throws SQLException {
+    public static void addCustomer(String username, String password, String name, String email, String publicKey) throws SQLException {
         DBConnect dbConnect = DBConnect.getInstance();
-//        String sql = "insert into customer values ('" + GetKey() + "'," + "'" + name + "'," + "'" + email + "', null," + "null,'" + username + "'," + "'" + password + "',0,1," + "'" + LocalDateTime.now() + "')";
-        String sql = "insert into customer values ('" + GetKey() + "','" + name + "','" + email + "', null,null,'" + username + "','" + password + "',0,1,'" + LocalDateTime.now() + "')";
+        String idCustomer = GetKey();
+        String sql = "insert into customer values ('" + idCustomer + "','" + name + "','" + email + "', null,null,'" + username + "','" + password + "',0,1,'" + LocalDateTime.now() + "')";
+        int idSerial = 1;
+        String getSerial = "select id from public_key order by id desc limit 1";
+        PreparedStatement pre = dbConnect.getConnection().prepareStatement(getSerial);
+        ResultSet rs = pre.executeQuery();
+        if (rs.next()) {
+            idSerial = rs.getInt("id") + 1;
+        }
+        String addPublicKey = "insert into public_key values ('" + idSerial + "','" + idCustomer + "','" + publicKey + "','" + LocalDateTime.now() + "','" + LocalDateTime.of(9999, 12, 31, 23, 59, 59) + "','" + "1" + "')";
         dbConnect.get().executeUpdate(sql);
+        dbConnect.get().executeUpdate(addPublicKey);
     }
 
     public static void resetPassword(String email) throws SQLException {
@@ -94,7 +105,20 @@ public class CustomerService {
         pre.setString(1, username);
         ResultSet rs = pre.executeQuery();
         if (rs.next()) {
-            customer = new Customer(rs.getString("name"), rs.getString("email"), rs.getString("phone"), rs.getString("address"), Integer.parseInt(rs.getString("permission")));
+            customer = new Customer(rs.getString("id_customer"), rs.getString("name"), rs.getString("email"), rs.getString("phone"), rs.getString("address"), Integer.parseInt(rs.getString("permission")));
+        }
+        return customer;
+    }
+
+    public static Customer customerByEmail(String email) throws SQLException {
+        Customer customer = null;
+        DBConnect dbConnect = DBConnect.getInstance();
+        String sql = "select * from customer where email = ?";
+        PreparedStatement pre = dbConnect.getConnection().prepareStatement(sql);
+        pre.setString(1, email);
+        ResultSet rs = pre.executeQuery();
+        if (rs.next()) {
+            customer = new Customer(rs.getString("id_customer"), rs.getString("name"), rs.getString("email"), rs.getString("phone"), rs.getString("address"), Integer.parseInt(rs.getString("permission")));
         }
         return customer;
     }
@@ -112,6 +136,19 @@ public class CustomerService {
             isLogin = true;
         }
         return isLogin;
+    }
+
+    public static boolean checkPublicKey(String public_key) throws SQLException {
+        boolean isPublicKey = false;
+        DBConnect dbConnect = DBConnect.getInstance();
+        String sql = "select public_key from public_key where public_key = ?";
+        PreparedStatement pre = dbConnect.getConnection().prepareStatement(sql);
+        pre.setString(1, public_key);
+        ResultSet rs = pre.executeQuery();
+        if (rs.next()) {
+            isPublicKey = true;
+        }
+        return isPublicKey;
     }
 
     public static boolean checkUsername(String username) throws SQLException {
@@ -168,6 +205,103 @@ public class CustomerService {
         return isActive;
     }
 
+    public static String getIdCustomer(String username) throws SQLException {
+        String id = "";
+        DBConnect dbConnect = DBConnect.getInstance();
+        String sql = "select id_customer from customer where username = ?";
+        PreparedStatement pre = dbConnect.getConnection().prepareStatement(sql);
+        pre.setString(1, username);
+        ResultSet rs = pre.executeQuery();
+        if (rs.next()) {
+            id = rs.getString("id_customer");
+        }
+        return id;
+    }
+
+    public static String getPublicKey(String idCustomer) throws SQLException {
+        String public_key = "";
+        DBConnect dbConnect = DBConnect.getInstance();
+        String sql = "select public_key from public_key where id_kh = ?";
+        PreparedStatement pre = dbConnect.getConnection().prepareStatement(sql);
+        pre.setString(1, idCustomer);
+        ResultSet rs = pre.executeQuery();
+        if (rs.next()) {
+            public_key += rs.getString("public_key");
+        }
+        return public_key;
+    }
+
+    public static String getEmail(String publicKey) throws SQLException {
+        String email = "";
+        String idCus = "";
+        DBConnect dbConnect = DBConnect.getInstance();
+        String sql = "select id_kh from public_key where public_key = ?";
+        PreparedStatement pre = dbConnect.getConnection().prepareStatement(sql);
+        pre.setString(1, publicKey);
+        ResultSet rs = pre.executeQuery();
+        if (rs.next()) {
+            idCus = rs.getString("id_kh");
+        }
+        String sqlE = "select email from customer where id_customer = ?";
+        PreparedStatement p = dbConnect.getConnection().prepareStatement(sqlE);
+        p.setString(1, idCus);
+        ResultSet r = p.executeQuery();
+        if (r.next()) {
+            email += r.getString("email");
+        }
+        return email;
+    }
+
+    public static void addFormData(String id_kh, LocalDateTime date, String cf_code) throws SQLException {
+        DBConnect dbConnect = DBConnect.getInstance();
+        String sql = "insert into formdata values ('" + id_kh + "','" + date + "','" + cf_code + "')";
+        dbConnect.get().executeUpdate(sql);
+    }
+
+    public static boolean isValidConfirmationCode(String confirmationCode) throws SQLException {
+        boolean isValid = false;
+        DBConnect dbConnect = DBConnect.getInstance();
+        String sql = "select ex_time from formdata where cf_code = ?";
+        PreparedStatement pre = dbConnect.getConnection().prepareStatement(sql);
+        pre.setString(1, confirmationCode);
+        ResultSet rs = pre.executeQuery();
+        if (rs.next()) {
+            Timestamp timestamp = rs.getTimestamp("ex_time");
+            LocalDateTime ex_time = timestamp.toLocalDateTime();
+            LocalDateTime current = LocalDateTime.now();
+            if (ex_time.isAfter(current)) {
+                isValid = true;
+            }
+        }
+        return isValid;
+    }
+    public static void addPublic_key(String idCus, String public_key) throws SQLException {
+        DBConnect dbConnect = DBConnect.getInstance();
+        int idSerial = 1;
+        String getSerial = "select id from public_key order by id desc limit 1";
+        PreparedStatement pre = dbConnect.getConnection().prepareStatement(getSerial);
+        ResultSet rs = pre.executeQuery();
+        if (rs.next()) {
+            idSerial = rs.getInt("id") + 1;
+        }
+        String sql = "insert into public_key values ('" + idSerial + "','" + idCus + "','" + public_key + "','" + LocalDateTime.now() + "','" + LocalDateTime.of(9999, 12, 31, 23, 59, 59) + "','" + "1" + "')";
+        PreparedStatement pre2 = dbConnect.getConnection().prepareStatement(sql);
+        pre2.executeUpdate(sql);
+    }
+
+    public static void resetKey(String idCus, String publicKey_old, String publicKey, String privateKey) throws SQLException {
+        DBConnect dbConnect = DBConnect.getInstance();
+        String sql = "select * from public_key where public_key = ?";
+        PreparedStatement pre = dbConnect.getConnection().prepareStatement(sql);
+        pre.setString(1, publicKey_old);
+        ResultSet rs = pre.executeQuery();
+        if (rs.next()){
+            String reset = "update public_key set status = '" + 0 + "' where public_key = '" + publicKey_old + "'";
+            pre.executeUpdate(reset);
+            CustomerService.addPublic_key(idCus, publicKey);
+        }
+    }
+
     public static void main(String[] args) throws SQLException, NoSuchAlgorithmException {
 //        System.out.println(emailValidate("@tran.duyn.han@gm.ail.com"));
 //        System.out.println(pwValidate("nhandz", "nhandz"));
@@ -176,6 +310,12 @@ public class CustomerService {
 //        System.out.println(toMD5("123456"));
 //        changePassword("tdn", "c4ca4238a0b923820dcc509a6f75849b", toMD5("nhandz"));
 //        resetPassword("20130346@st.hcmuaf.edu.vn");
-        System.out.println(checkActive("tdn"));
+//        System.out.println(checkActive("tdn"));
+//        System.out.println(checkEmail("@gmail.com"));
+//        System.out.println(getPublicKey("ad_nhan"));
+        Customer customer = CustomerService.customer("qadmin");
+        String public_key = CustomerService.getPublicKey(customer.getId_customer());
+        System.out.println(public_key);
     }
+
 }

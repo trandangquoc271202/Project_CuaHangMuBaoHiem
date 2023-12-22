@@ -56,6 +56,8 @@
                    aria-controls="#v-pills-reset_pw" aria-selected="true">Đổi mật khẩu</a>
                 <a class="nav-link " id="v-pills-bill-tab" href="bill_customer.jsp" role="tab"
                    aria-controls="v-pills-bill" aria-selected="false">Lịch sử mua hàng</a>
+                    <a class="nav-link " id="v-pills-info_key-tab" href="info_key.jsp" role="tab"
+                       aria-controls="v-info_key-bill" aria-selected="false">Thông tin khóa</a>
             </div>
         </div>
         <div class="col-9">
