@@ -63,7 +63,7 @@
           </ul>
           <ul>
             <li class="relative px-6 py-3">
-              
+
               <a
                 class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
                 href="/Project_CuaHangMuBaoHiem_war/ManageProduct"
@@ -84,7 +84,7 @@
               </a>
             </li>
             <li class="relative px-6 py-3">
-                
+
               <a
                       class="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100"
                       href="/Project_CuaHangMuBaoHiem_war/list-bill"
@@ -148,7 +148,7 @@
               </a>
             </li>
           </ul>
-          
+
         </div>
       </aside>
       <!-- Mobile sidebar -->

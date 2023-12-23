@@ -60,11 +60,14 @@ To change this template use File | Settings | File Templates.
                    aria-controls="#v-pills-reset_pw" aria-selected="false">Đổi mật khẩu</a>
                 <a class="nav-link" id="v-pills-bill-tab" href="bill_customer.jsp" role="tab"
                    aria-controls="#v-pills-bill" aria-selected="false">Lịch sử mua hàng</a>
+                <a class="nav-link " id="v-pills-info_key-tab" href="info_key.jsp" role="tab"
+                   aria-controls="v-info_key-bill" aria-selected="false">Thông tin khóa</a>
             </div>
         </div>
         <% String error = (String) request.getAttribute("error");%>
         <% String success = (String) request.getAttribute("success");%>
-        <% String username = (String) session.getAttribute("tendangnhap");
+        <%
+            String username = (String) session.getAttribute("tendangnhap");
             Customer cus = CustomerService.customer(username);
         %>
         <div class="col-9">
@@ -74,8 +77,7 @@ To change this template use File | Settings | File Templates.
                     <div class="form-account">
                         <form action="/Project_CuaHangMuBaoHiem_war/DoProfile" method="post">
                             <div class="title">Thông tin cá nhân</div>
-                            <span style="color: green; font-size: 18px; text-align: center;"><%=(success != null && success != "") ? success : ""%>
-                </span>
+                            <span style="color: green; font-size: 18px; text-align: center;"><%=(success != null && success != "") ? success : ""%></span>
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-6">
@@ -113,8 +115,7 @@ To change this template use File | Settings | File Templates.
                                     </div>
                                 </div>
                             </div>
-                            <span style="color: red; font-size: 18px; text-align: center;"><%=(error != null && error != "") ? error : ""%>
-                </span>
+                            <span style="color: red; font-size: 18px; text-align: center;"><%=(error != null && error != "") ? error : ""%></span>
                             <div class="form-group">
                                 <div class="f-btn">
                                     <button type="submit"> Lưu</button>

@@ -37,7 +37,7 @@ public class MailProperties {
         return  prop.getProperty("mail.username").toString();
     }
     public static String getMailPassword(){
-        return  prop.getProperty("mail.password").toString();
+        return  prop.getProperty("mail.password").toString().trim();
     }
     public static String getMailFrom(){
         return  prop.getProperty("mail.from").toString();
