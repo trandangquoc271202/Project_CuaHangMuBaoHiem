@@ -15,10 +15,7 @@ import java.io.PrintWriter;
 import java.security.PrivateKey;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @WebServlet(name = "add_bill", value = "/add_bill")
 public class Add_Bill extends HttpServlet {
@@ -37,8 +34,14 @@ public class Add_Bill extends HttpServlet {
         String privateKey = request.getParameter("privateKey");
         Cart cart = (Cart) request.getSession().getAttribute("cart");
         List<String> id_dp = new ArrayList<String>();
+        Map<String, Integer> db = new HashMap<String, Integer>();
+        int quantity = cart.getQuantity();
+        int total = (int)cart.getTotal();
         for(Product p: cart.getListProduct()){
             id_dp.add(p.getDetail().get(0).getId());
+        }
+        for(Product p: cart.getListProduct()){
+            db.put(p.getDetail().get(0).getId(),cart.getQuantityProduct(p.getKey()));
         }
         String result = digitalSignature.getInformationOrder(name, phone, address, cart);
         String message = digitalSignature.hashString(result);
@@ -56,7 +59,7 @@ public class Add_Bill extends HttpServlet {
         }else {
             LocalDateTime date = LocalDateTime.now();
 
-            String id_bill = date.getSecond() + "-" + date.getMinute() + "-" + date.getHour() + "-" + date.getDayOfMonth() + "-" + date.getMonth() + "-" + date.getYear();
+            String id_bill = date.getSecond() + "-" + date.getMinute() + "-" + date.getHour() + "-" + date.getDayOfMonth() + "-" + date.getMonthValue() + "-" + date.getYear();
             String username = (String) request.getSession().getAttribute("tendangnhap");
             String id_cus = "";
             try {
@@ -64,7 +67,7 @@ public class Add_Bill extends HttpServlet {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-            ProductService.addBill(id_bill, id_cus, "Đang gửi", id_dp, address, phone, signature, digitalSignature.getPublicKey(id_cus));
+            ProductService.addBill(id_bill, id_cus, "Đang gửi", db, address, phone, signature, digitalSignature.getPublicKey(id_cus), name, email,quantity,total);
             cart.getCart().clear();
             cart.setTotal(0);
             cart.setQuantity(0);

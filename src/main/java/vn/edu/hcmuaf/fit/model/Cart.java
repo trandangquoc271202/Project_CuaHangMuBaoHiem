@@ -116,6 +116,7 @@ public void put(Product p){
         this.quantity = quantity;
     }
 
+    public Customer getCustomer(){ return customer; }
     public static void main(String[] args) throws SQLException {
         Product p = ProductService.getDetailProduct("1","M","đỏ");
         Cart c = new Cart();

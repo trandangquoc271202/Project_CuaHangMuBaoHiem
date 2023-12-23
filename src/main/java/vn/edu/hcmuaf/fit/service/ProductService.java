@@ -540,7 +540,7 @@ public class ProductService {
         }
         return c;
     }
-    public static void addBill(String id,String id_Customer,String status, List<String> id_dp,String address, String phone,String signature,int public_key){
+    public static void addBill(String id,String id_Customer,String status, Map<String,Integer> id_dp,String address, String phone,String signature,int public_key, String name, String email, int quantity, int total){
         try {
 
             Date date = new Date();
@@ -548,7 +548,7 @@ public class ProductService {
             if(resultSet.next()){
                 date = resultSet.getDate(1);
             }
-            PreparedStatement prs = DBConnect.getInstance().getConnection().prepareStatement("INSERT into bill(id, id_customer, date, status, address, phone, public_key,digital_signature) values(?,?,?,?,?,?,?,?)");
+            PreparedStatement prs = DBConnect.getInstance().getConnection().prepareStatement("INSERT into bill(id, id_customer, date, status, address, phone, public_key,digital_signature, name, email, quantity, total) values(?,?,?,?,?,?,?,?,?,?,?,?)");
             prs.setString(1, id);
             prs.setString(2,id_Customer);
             prs.setDate(3, (java.sql.Date) date);
@@ -557,11 +557,16 @@ public class ProductService {
             prs.setString(6,phone);
             prs.setInt(7,public_key);
             prs.setString(8,signature);
+            prs.setString(9,name);
+            prs.setString(10,email);
+            prs.setInt(11,quantity);
+            prs.setInt(12,total);
             prs.executeUpdate();
-            PreparedStatement ps = DBConnect.getInstance().getConnection().prepareStatement("INSERT into detail_bill values(?,?)");
-            for (String i:id_dp){
+            PreparedStatement ps = DBConnect.getInstance().getConnection().prepareStatement("INSERT into detail_bill values(?,?,?)");
+            for (String i:id_dp.keySet()){
                 ps.setString(1,id);
                 ps.setString(2,i);
+                ps.setInt(3,id_dp.get(i));
                 ps.executeUpdate();
             }
         }catch(SQLException e){

@@ -477,6 +477,12 @@
                 start=end=size=1;
                 endPage=1;
               }
+              int max = 0;
+              if(ProductService.getListBill().size()%10==0){
+                max = ProductService.getListBill().size()/10;
+              }else{
+                max = ProductService.getListBill().size()/10 + 1;
+              }
             %>
             <span class="flex items-center col-span-3">
                   Hiển thị <%=start%>-<%=end%> của <%=size%>
@@ -486,14 +492,16 @@
             <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
                   <nav aria-label="Table navigation">
                     <ul class="inline-flex items-center">
-                      <%if(endPage<=7){%>
+                      <%if(endPage<=(Math.round(ProductService.getListBill().size()/10))+1){%>
                         <li class="page-item <%=index==1? "disabled":""%>">
-                        <a href="<%="/Project_CuaHangMuBaoHiem_war/list-bill?index=" + pre%>"><button class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple" aria-label="Previous">
+                        <%if(pre != 0){%>
+                          <a href="<%="/Project_CuaHangMuBaoHiem_war/list-bill?index=" + pre%>"><button class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple" aria-label="Previous">
                           <svg class="w-4 h-4 fill-current" aria-hidden="true" viewBox="0 0 20 20">
                             <path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" fill-rule="evenodd">
                             </path>
                           </svg>
                         </button></a>
+                          <%}%>
                       </li>
                       <%for(int i = 1; i <= endPage; i++){%>
                         <li>
@@ -503,22 +511,26 @@
                         </li>
                       <%}%>
                       <li class="page-item <%=index==endPage? "disabled":""%>">
+                        <%if(next<=max){%>
                         <a href="<%="/Project_CuaHangMuBaoHiem_war/list-bill?index=" + next%>"><button class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple" aria-label="Next">
                           <svg class="w-4 h-4 fill-current" aria-hidden="true" viewBox="0 0 20 20">
                             <path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" fill-rule="evenodd">
                             </path>
                           </svg>
                         </button></a>
+                        <%}%>
                       </li>
                         <%}else{
                           if(index==1||index==endPage){%>
                         <li class="page-item <%=index==1? "disabled":""%>">
+                          <%if(pre != 0){%>
                         <a href="<%="/Project_CuaHangMuBaoHiem_war/list-bill?index=" + pre%>"><button class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple" aria-label="Previous">
                           <svg class="w-4 h-4 fill-current" aria-hidden="true" viewBox="0 0 20 20">
                             <path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" fill-rule="evenodd">
                             </path>
                           </svg>
                         </button></a>
+                          <%}%>
                       </li>
                         <li><a href="<%="/Project_CuaHangMuBaoHiem_war/list-bill?index=" + 1%>"><button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple <%=index==1? "text-white bg-purple-600":""%>">
                           1
@@ -534,21 +546,25 @@
                           <%=endPage%>
                         </button></a></li>
                       <li class="page-item <%=index==endPage? "disabled":""%>">
+                        <%if(next<=max){%>
                         <a href="<%="/Project_CuaHangMuBaoHiem_war/list-bill?index=" + next%>"><button class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple" aria-label="Next">
                           <svg class="w-4 h-4 fill-current" aria-hidden="true" viewBox="0 0 20 20">
                             <path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" fill-rule="evenodd">
                             </path>
                           </svg>
                         </button></a>
+                        <%}%>
                       </li>
                         <%}else if(index==2){%>
                         <li class="page-item <%=index==1? "disabled":""%>">
+                          <%if(pre != 0){%>
                         <a href="<%="/Project_CuaHangMuBaoHiem_war/list-bill?index=" + pre%>"><button class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple" aria-label="Previous">
                           <svg class="w-4 h-4 fill-current" aria-hidden="true" viewBox="0 0 20 20">
                             <path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" fill-rule="evenodd">
                             </path>
                           </svg>
                         </button></a>
+                          <%}%>
                       </li>
                         <li><a href="<%="/Project_CuaHangMuBaoHiem_war/list-bill?index=" + 1%>"><button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple <%=index==1? "text-white bg-purple-600":""%>">
                           1
@@ -567,21 +583,25 @@
                           <%=endPage%>
                         </button></a></li>
                       <li class="page-item <%=index==endPage? "disabled":""%>">
+                        <%if(next<=max){%>
                         <a href="<%="/Project_CuaHangMuBaoHiem_war/list-bill?index=" + next%>"><button class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple" aria-label="Next">
                           <svg class="w-4 h-4 fill-current" aria-hidden="true" viewBox="0 0 20 20">
                             <path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" fill-rule="evenodd">
                             </path>
                           </svg>
                         </button></a>
+                        <%}%>
                       </li>
                         <%}else if(index==(endPage-1)){%>
                         <li class="page-item <%=index==1? "disabled":""%>">
+                          <%if(pre != 0){%>
                         <a href="<%="/Project_CuaHangMuBaoHiem_war/list-bill?index=" + pre%>"><button class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple" aria-label="Previous">
                           <svg class="w-4 h-4 fill-current" aria-hidden="true" viewBox="0 0 20 20">
                             <path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" fill-rule="evenodd">
                             </path>
                           </svg>
                         </button></a>
+                          <%}%>
                       </li>
                         <li><a href="<%="/Project_CuaHangMuBaoHiem_war/list-bill?index=" + 1%>"><button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple <%=index==1? "text-white bg-purple-600":""%>">
                           1
@@ -600,21 +620,25 @@
                           <%=endPage%>
                         </button></a></li>
                       <li class="page-item <%=index==endPage? "disabled":""%>">
+                        <%if(next<=max){%>
                         <a href="<%="/Project_CuaHangMuBaoHiem_war/list-bill?index=" + next%>"><button class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple" aria-label="Next">
                           <svg class="w-4 h-4 fill-current" aria-hidden="true" viewBox="0 0 20 20">
                             <path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" fill-rule="evenodd">
                             </path>
                           </svg>
                         </button></a>
+                        <%}%>
                       </li>
                         <%}else{%>
                         <li class="page-item <%=index==1? "disabled":""%>">
+                          <%if(pre != 0){%>
                         <a href="<%="/Project_CuaHangMuBaoHiem_war/list-bill?index=" + pre%>"><button class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple" aria-label="Previous">
                           <svg class="w-4 h-4 fill-current" aria-hidden="true" viewBox="0 0 20 20">
                             <path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" fill-rule="evenodd">
                             </path>
                           </svg>
                         </button></a>
+                          <%}%>
                       </li>
                         <li><a href="<%="/Project_CuaHangMuBaoHiem_war/list-bill?index=" + 1%>"><button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple <%=index==1? "text-white bg-purple-600":""%>">
                           1
@@ -634,12 +658,14 @@
                           <%=endPage%>
                         </button></a></li>
                       <li class="page-item <%=index==endPage? "disabled":""%>">
+                        <%if(next<=max){%>
                         <a href="<%="/Project_CuaHangMuBaoHiem_war/list-bill?index=" + next%>"><button class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple" aria-label="Next">
                           <svg class="w-4 h-4 fill-current" aria-hidden="true" viewBox="0 0 20 20">
                             <path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" fill-rule="evenodd">
                             </path>
                           </svg>
                         </button></a>
+                        <%}%>
                       </li>
                         <%}%>
                         <%}%>

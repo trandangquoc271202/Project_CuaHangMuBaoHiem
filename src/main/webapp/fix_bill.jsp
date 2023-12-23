@@ -298,13 +298,14 @@
                      name="address"     value="<%=address%>"     />
             </label>
             <br>
+            <%if(bill.getStatus().equals("Đang gửi")){%>
             <label
                     class="inline-flex items-center text-gray-600 dark:text-gray-400"
             >
               <input id="sending"
-                      type="radio"
-                      class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
-                      name="status"
+                     type="radio"
+                     class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                     name="status"
                      value="Đang gửi"
               />
               <span class="ml-2">Đang gửi</span>
@@ -312,11 +313,34 @@
             <label
                     class="inline-flex items-center ml-6 text-gray-600 dark:text-gray-400"
             >
-              <input id="recived"
+              <input id="recived1"
+                     type="radio"
+                     class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                     name="status"
+                     value="Đã nhận"
+              />
+              <span class="ml-2">Đã nhận</span>
+            </label>
+            <label
+                    class="inline-flex items-center ml-6 text-gray-600 dark:text-gray-400"
+            >
+              <input  id="cancel1"
                       type="radio"
                       class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
                       name="status"
-                      value="Đã nhận"
+                      value="Đã hủy"
+              />
+              <span class="ml-2">Đã hủy</span>
+            </label>
+            <%}else if(bill.getStatus().equals("Đã nhận")){%>
+            <label
+                    class="inline-flex items-center ml-6 text-gray-600 dark:text-gray-400"
+            >
+              <input id="recived"
+                     type="radio"
+                     class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                     name="status"
+                     value="Đã nhận"
               />
               <span class="ml-2">Đã nhận</span>
             </label>
@@ -330,7 +354,19 @@
                       value="Đã hủy"
               />
               <span class="ml-2">Đã hủy</span>
+              <%}else{%>
             </label>
+            <label
+                    class="inline-flex items-center ml-6 text-gray-600 dark:text-gray-400"
+            >
+              <input  id="cancel"
+                      type="radio"
+                      class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                      name="status"
+                      value="Đã hủy"
+              />
+              <span class="ml-2">Đã hủy</span>
+                <%}%>
           </div>
           <input type="submit" value="Lưu" class="button" style="background: #007bff; margin-right: 20px">
           <a href="http://localhost:8080/Project_CuaHangMuBaoHiem_war/list-bill"><button type="button" class="button cancel" style="background: red">Hủy</button></a>
