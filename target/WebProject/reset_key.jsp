@@ -52,11 +52,11 @@
                 <%--                   aria-controls="#v-pills-reset_pw" aria-selected="false">Đổi mật khẩu</a>--%>
                 <a class="nav-link " id="v-pills-home-tab" href=account.jsp role="tab"
                    aria-controls="v-pills-info" aria-selected="false">Thông tin cá nhân</a>
-                <a class="nav-link active" id="v-pills-profile-tab" href=change-password.jsp role="tab"
+                <a class="nav-link " id="v-pills-profile-tab" href=change-password.jsp role="tab"
                    aria-controls="#v-pills-reset_pw" aria-selected="true">Đổi mật khẩu</a>
                 <a class="nav-link " id="v-pills-bill-tab" href="bill_customer.jsp" role="tab"
                    aria-controls="v-pills-bill" aria-selected="false">Lịch sử mua hàng</a>
-                <a class="nav-link " id="v-pills-info_key-tab" href="info_key.jsp" role="tab"
+                <a class="nav-link active" id="v-pills-info_key-tab" href="info_key.jsp" role="tab"
                    aria-controls="v-info_key-bill" aria-selected="false">Thông tin khóa</a>
             </div>
         </div>
@@ -119,7 +119,7 @@
                 <div class="tab-pane fade show active" id="v-pills-reset_pw" role="tabpanel"
                      aria-labelledby="v-pills-reset_pw-tab">
                     <div class="form-account">
-                        <form action="/Project_CuaHangMuBaoHiem_war/doChangePassword" method="post">
+                        <form action="/Project_CuaHangMuBaoHiem_war/doResetKey" method="post">
                             <div class="title">Thay đổi thông tin khóa</div>
                             <span style="display: flex; justify-content: center; color: green; text-align: center; font-size: 18px;"><%=(success != null && success != "") ? success : ""%>
                             </span>
@@ -139,7 +139,7 @@
                             </p>
                             <div class="form-group">
                                 <div class="f-btn">
-                                    <button type="submit" id="submit"> Lưu</button>
+                                    <button type="submit"> Lưu</button>
                                 </div>
                             </div>
                         </form>
@@ -173,6 +173,8 @@
 <!-- Template Javascript -->
 <script src="js/main.js"></script>
 <script src="js/valid.js" charset="utf-8"></script>
+<script src="js/generateKey.js"></script>
+<script src="js/downloadFileKey.js"></script>
 </body>
 
 </html>

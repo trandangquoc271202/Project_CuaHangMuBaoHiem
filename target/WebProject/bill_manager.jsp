@@ -492,7 +492,7 @@
             <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
                   <nav aria-label="Table navigation">
                     <ul class="inline-flex items-center">
-                      <%if(endPage<=(Math.round(ProductService.getListBill().size()/10))+1){%>
+                      <%if(endPage<=max){%>
                         <li class="page-item <%=index==1? "disabled":""%>">
                         <%if(pre != 0){%>
                           <a href="<%="/Project_CuaHangMuBaoHiem_war/list-bill?index=" + pre%>"><button class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple" aria-label="Previous">
