@@ -58,8 +58,9 @@
 .form-group .btn-key{
     font-size: 16px;
     text-decoration: none;
+    color: #6c757d;
 }
 .form-group .btn-key:hover{
-    color: #FFD333;
+    color: #ffd333;
     font-weight: bold;
 }

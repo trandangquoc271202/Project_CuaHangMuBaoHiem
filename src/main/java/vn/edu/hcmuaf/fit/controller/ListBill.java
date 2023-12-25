@@ -57,9 +57,9 @@ public class ListBill extends HttpServlet {
                 if(!NguyeMinhDuc.checkChangeBill(b.getId())){
                     String status = "Đã hủy";
                     NguyeMinhDuc.change_status_bill(b.getId(),status);
-                    String id_customer = b.getId_cus();
-                    String email_customer = NguyeMinhDuc.getCustomer(id_customer).getEmail();
-                    MailService.sendMail(email_customer,"Hủy đơn hàng","Lý do: Đơn hàng đã bị chỉnh sửa");
+//                    String id_customer = b.getId_cus();
+//                    String email_customer = NguyeMinhDuc.getCustomer(id_customer).getEmail();
+//                    MailService.sendMail(email_customer,"Hủy đơn hàng","Lý do: Đơn hàng đã bị chỉnh sửa");
                 }
             }
 
