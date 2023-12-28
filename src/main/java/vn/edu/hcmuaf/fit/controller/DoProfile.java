@@ -7,16 +7,23 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-@WebServlet(name = "DoProfile", value = "/DoProfile")
+@WebServlet(name = "DoProfile", value = "/Profile")
 public class DoProfile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        HttpSession session = request.getSession();
+        String username = (String) session.getAttribute("tendangnhap");
+        if (username == null) {
+            response.sendRedirect("/Project_CuaHangMuBaoHiem_war/Login");
+        } else {
+            request.getRequestDispatcher("account.jsp").forward(request,response);
+        }
     }
 
     @Override

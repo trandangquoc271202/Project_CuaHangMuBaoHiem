@@ -14,11 +14,17 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet(name = "DoLogin", value = "/doLogin")
+@WebServlet(name = "DoLogin", value = "/Login")
 public class DoLogin extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        HttpSession session = request.getSession();
+        String username = (String) session.getAttribute("tendangnhap");
+        if (username != null) {
+            response.sendRedirect("/Project_CuaHangMuBaoHiem_war/Home");
+        } else {
+            request.getRequestDispatcher("login.jsp").forward(request,response);
+        }
     }
 
     @Override

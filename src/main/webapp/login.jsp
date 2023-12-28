@@ -46,7 +46,7 @@ To change this template use File | Settings | File Templates.
 <section>
     <div class="form-container" style="background: url('//localhost:8080/Project_CuaHangMuBaoHiem_war/img/login/nendangnhap.png')">
         <div class="form-login">
-            <form action="/Project_CuaHangMuBaoHiem_war/doLogin" method="post">
+            <form action="/Project_CuaHangMuBaoHiem_war/Login" method="post">
                 <div class="title">Đăng nhập</div>
                 <div class="form-group">
                     <div class="icon d-flex align-items-center justify-content-center">
@@ -61,7 +61,7 @@ To change this template use File | Settings | File Templates.
 
                 </div>
                 <div class="form-group text-md-right">
-                    <a href="forgot-password.jsp" style="text-decoration: none">Quên mật khẩu?</a>
+                    <a href="ResetPassword" style="text-decoration: none">Quên mật khẩu?</a>
                 </div>
                 <div class="form-group">
                     <button type="submit"> Đăng nhập</button>
@@ -71,7 +71,7 @@ To change this template use File | Settings | File Templates.
             </form>
             <div class="form-footer">
                 <p>Bạn chưa có tài khoản?</p>
-                <a href="register.jsp" style="text-decoration: none">Đăng ký</a>
+                <a href="Register" style="text-decoration: none">Đăng ký</a>
             </div>
         </div>
     </div>

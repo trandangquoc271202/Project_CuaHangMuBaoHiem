@@ -47,18 +47,18 @@
         <div class="col-md-4 mb-5">
           <h5 class="text-secondary text-uppercase mb-4">Quick Shop</h5>
           <div class="d-flex flex-column justify-content-start">
-            <a class="text-secondary mb-2" href="index.jsp"><i class="fa fa-angle-right mr-2"></i>Trang chủ</a>
-            <a class="text-secondary mb-2" href="shop.jsp"><i class="fa fa-angle-right mr-2"></i>Sản phẩm</a>
-            <a class="text-secondary mb-2" href="cart.jsp"><i class="fa fa-angle-right mr-2"></i>Giỏ hàng</a>
+            <a class="text-secondary mb-2" href="/Project_CuaHangMuBaoHiem_war/Home"><i class="fa fa-angle-right mr-2"></i>Trang chủ</a>
+            <a class="text-secondary mb-2" href="/Project_CuaHangMuBaoHiem_war/list-product"><i class="fa fa-angle-right mr-2"></i>Sản phẩm</a>
+            <a class="text-secondary mb-2" href="/Project_CuaHangMuBaoHiem_war/ListProductInCart"><i class="fa fa-angle-right mr-2"></i>Giỏ hàng</a>
             <a class="text-secondary" href="contact.jsp"><i class="fa fa-angle-right mr-2"></i>Liên hệ</a>
           </div>
         </div>
         <div class="col-md-4 mb-5">
           <h5 class="text-secondary text-uppercase mb-4">Tài khoản của tôi</h5>
           <div class="d-flex flex-column justify-content-start">
-            <a class="text-secondary mb-2" href="login.jsp"><i class="fa fa-angle-right mr-2"></i>Đăng nhập</a>
-            <a class="text-secondary mb-2" href="register.jsp"><i class="fa fa-angle-right mr-2"></i>Đăng ký</a>
-            <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Quên mật khẩu</a>
+            <a class="text-secondary mb-2" href="Login"><i class="fa fa-angle-right mr-2"></i>Đăng nhập</a>
+            <a class="text-secondary mb-2" href="Register"><i class="fa fa-angle-right mr-2"></i>Đăng ký</a>
+            <a class="text-secondary mb-2" href="ResetPassword"><i class="fa fa-angle-right mr-2"></i>Quên mật khẩu</a>
           </div>
         </div>
         <div class="col-md-4 mb-5">

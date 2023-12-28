@@ -15,7 +15,7 @@ document.getElementById("downloadKey").addEventListener("click", function () {
     fileContent += "No duoc su dung de giai ma thong diep da duoc ma hoa bang khoa cong khai. No la cong cu de thuc hien cac giao dich, xac thuc danh tinh va chu ky so dien tu. Moi nguoi chi co mot khoa rieng tu duy nhat va bao ve no la rat quan trong.\n\n\n\n"
     fileContent += "Day la KHOA CONG KHAI cua ban:\n";
     fileContent += publicKey + "\n\n";
-    fileContent += "Day la KHOA RIENG TU cu ban:\n";
+    fileContent += "Day la KHOA RIENG TU cua ban:\n";
     fileContent += privateKey + "\n\n\n\n\n";
     fileContent += "*** Vui long KHONG CHIA SE KHOA RIENG TU cho bat ky ai ***\n"
     fileContent += "Cam on quy khach, Helmet Shop!"

@@ -106,8 +106,8 @@
                             %>
                             <% if (se == null) {%>
                             <div class="navbar-nav ml-auto py-0">
-                                <a href="login.jsp" class="nav-item nav-link">
-                                    <i class="fas fa-user text-primary" style="padding-top: 4px"></i>
+                                <a href="/Project_CuaHangMuBaoHiem_war/Login" class="nav-item nav-link">
+                                        <i class="fas fa-user text-primary" style="padding-top: 4px"></i>
                                 </a>
                             </div>
                             <% } else if((int) request.getSession().getAttribute("permission")==0) { %>
@@ -117,7 +117,7 @@
                                         style="padding-top: 4px; padding-right: 4px; "></i><%=se%>
                                 </a>
                                 <div class="dropdown-menu bg-dark border-bt-primary m-0">
-                                    <a href="account.jsp" class="dropdown-item text-primary">Thông tin</a>
+                                    <a href="Profile" class="dropdown-item text-primary">Thông tin</a>
                                     <a href="DoLogout" class="dropdown-item text-primary">Đăng xuất</a>
                                 </div>
                             </div>
@@ -129,7 +129,7 @@
                                 </a>
                                 <div class="dropdown-menu bg-dark border-bt-primary m-0">
                                     <a href="ManageProduct" class="dropdown-item text-primary">Trang quản lý</a>
-                                    <a href="account.jsp" class="dropdown-item text-primary">Thông tin</a>
+                                    <a href="Profile" class="dropdown-item text-primary">Thông tin</a>
                                     <a href="DoLogout" class="dropdown-item text-primary">Đăng xuất</a>
                                 </div>
                             </div>

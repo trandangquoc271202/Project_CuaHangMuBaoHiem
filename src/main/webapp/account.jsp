@@ -54,14 +54,14 @@ To change this template use File | Settings | File Templates.
             <%--                   aria-controls="#v-pills-reset_pw" aria-selected="false">Đổi mật khẩu</a>--%>
             <%--            </div>--%>
             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <a class="nav-link active" id="v-pills-home-tab" href="account.jsp" role="tab"
+                <a class="nav-link active" id="v-pills-home-tab" href="Profile" role="tab"
                    aria-controls="v-pills-info" aria-selected="true">Thông tin cá nhân</a>
-                <a class="nav-link" id="v-pills-profile-tab" href="change-password.jsp" role="tab"
+                <a class="nav-link" id="v-pills-profile-tab" href="ChangePassword" role="tab"
                    aria-controls="#v-pills-reset_pw" aria-selected="false">Đổi mật khẩu</a>
-                <a class="nav-link" id="v-pills-bill-tab" href="bill_customer.jsp" role="tab"
+                <a class="nav-link" id="v-pills-bill-tab" href="BillCustomer" role="tab"
                    aria-controls="#v-pills-bill" aria-selected="false">Lịch sử mua hàng</a>
-                <a class="nav-link " id="v-pills-info_key-tab" href="info_key.jsp" role="tab"
-                   aria-controls="v-info_key-bill" aria-selected="false">Thông tin khóa</a>
+                <a class="nav-link" id="v-pills-info_key-tab" href="InfoKey" role="tab"
+                   aria-controls="v-pills-info_key" aria-selected="false">Thông tin khóa</a>
             </div>
         </div>
         <% String error = (String) request.getAttribute("error");%>
@@ -75,7 +75,7 @@ To change this template use File | Settings | File Templates.
                 <div class="tab-pane fade show active" id="v-pills-info" role="tabpanel"
                      aria-labelledby="v-pills-info-tab">
                     <div class="form-account">
-                        <form action="/Project_CuaHangMuBaoHiem_war/DoProfile" method="post">
+                        <form action="/Project_CuaHangMuBaoHiem_war/Profile" method="post">
                             <div class="title">Thông tin cá nhân</div>
                             <span style="color: green; font-size: 18px; text-align: center;"><%=(success != null && success != "") ? success : ""%></span>
                             <div class="form-group">

@@ -46,19 +46,21 @@
 <section class="nav-vertical">
     <div class="row">
         <div class="col-3">
+            <%--            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">--%>
+            <%--                <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-info" role="tab"--%>
+            <%--                   aria-controls="v-pills-info" aria-selected="true">Thông tin cá nhân</a>--%>
+            <%--                <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-reset_pw" role="tab"--%>
+            <%--                   aria-controls="#v-pills-reset_pw" aria-selected="false">Đổi mật khẩu</a>--%>
+            <%--            </div>--%>
             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <%--                <a class="nav-link " id="v-pills-home-tab" data-toggle="pill" href="#v-pills-info" role="tab"--%>
-                <%--                   aria-controls="v-pills-info" aria-selected="true">Thông tin cá nhân</a>--%>
-                <%--                <a class="nav-link active" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-reset_pw" role="tab"--%>
-                <%--                   aria-controls="#v-pills-reset_pw" aria-selected="false">Đổi mật khẩu</a>--%>
-                <a class="nav-link " id="v-pills-home-tab" href=account.jsp role="tab"
+                <a class="nav-link" id="v-pills-home-tab" href="Profile" role="tab"
                    aria-controls="v-pills-info" aria-selected="false">Thông tin cá nhân</a>
-                <a class="nav-link" id="v-pills-profile-tab" href=change-password.jsp role="tab"
+                <a class="nav-link" id="v-pills-profile-tab" href="ChangePassword" role="tab"
                    aria-controls="#v-pills-reset_pw" aria-selected="false">Đổi mật khẩu</a>
-                <a class="nav-link " id="v-pills-bill-tab" href="bill_customer.jsp" role="tab"
-                   aria-controls="v-pills-bill" aria-selected="false">Lịch sử mua hàng</a>
-                <a class="nav-link active" id="v-pills-info_key-tab" href="info_key.jsp" role="tab"
-                   aria-controls="v-info_key-bill" aria-selected="true">Thông tin khóa</a>
+                <a class="nav-link" id="v-pills-bill-tab" href="BillCustomer" role="tab"
+                   aria-controls="#v-pills-bill" aria-selected="false">Lịch sử mua hàng</a>
+                <a class="nav-link active" id="v-pills-info_key-tab" href="InfoKey" role="tab"
+                   aria-controls="v-pills-info_key" aria-selected="true">Thông tin khóa</a>
             </div>
         </div>
         <div class="col-9">
@@ -139,6 +141,8 @@
                         </form>
                     </div>
                 </div>
+                <% String error = (String) request.getAttribute("error");%>
+                <% String success = (String) request.getAttribute("success");%>
                 <%
                     String username = (String) session.getAttribute("tendangnhap");
                     Customer customer = CustomerService.customer(username);
@@ -147,25 +151,31 @@
                 <div class="tab-pane fade show active" id="v-pills-info_key" role="tabpanel"
                      aria-labelledby="v-pills-info_key-tab">
                     <div class="form-account">
-                        <form id="myForm" action="/Project_CuaHangMuBaoHiem_war/createForm" method="post">
+                        <form id="myForm" action="/Project_CuaHangMuBaoHiem_war/InfoKey" method="post">
                             <div class="title">Thông tin khóa công khai</div>
+                            <span style="display: flex; justify-content: center; color: green; text-align: center; font-size: 18px;"><%=(success != null && success != "") ? success : ""%>
                             <div class="form-group-rp">
                                 <div>
                                     <label class="form-label">Khóa công khai *</label>
-                                    <textarea id="public_key" class="form-control no_text" style="height: 120px" readonly><%= public_key %></textarea>
+                                    <textarea id="public_key" class="form-control no_text" style="height: 120px"
+                                              readonly><%= public_key %></textarea>
                                 </div>
                             </div>
                             <input type="hidden" id="publicKeyInput" name="publicKey" value="">
+                            <p style="color: red; text-align: center; font-size: 18px;"><%=(error != null && error != "") ? error : ""%>
                             <div class="form-group">
                                 <div class="f-btn">
-                                    <button type="button" data-toggle="modal" data-target="#confirmModal"> Báo cáo lộ khóa riêng tư</button>
+                                    <button type="button" data-toggle="modal" data-target="#confirmModal"> Báo cáo lộ
+                                        khóa riêng tư
+                                    </button>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
                 <!-- Modal -->
-                <div class="modal" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+                <div class="modal" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel"
+                     aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
