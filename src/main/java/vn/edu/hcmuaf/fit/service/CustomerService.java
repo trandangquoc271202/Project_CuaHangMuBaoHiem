@@ -109,6 +109,18 @@ public class CustomerService {
         }
         return customer;
     }
+    public static Customer customerById(String id) throws SQLException {
+        Customer customer = null;
+        DBConnect dbConnect = DBConnect.getInstance();
+        String sql = "select * from customer where id_customer = ?";
+        PreparedStatement pre = dbConnect.getConnection().prepareStatement(sql);
+        pre.setString(1, id);
+        ResultSet rs = pre.executeQuery();
+        if (rs.next()) {
+            customer = new Customer(rs.getString("id_customer"), rs.getString("name"), rs.getString("email"), rs.getString("phone"), rs.getString("address"), rs.getString("username"), Integer.parseInt(rs.getString("permission")));
+        }
+        return customer;
+    }
 
     public static Customer customerByEmail(String email) throws SQLException {
         Customer customer = null;
@@ -218,10 +230,23 @@ public class CustomerService {
         return id;
     }
 
+    public static String getIdCustomerByCf_Code(String cf_code) throws SQLException {
+        String id = "";
+        DBConnect dbConnect = DBConnect.getInstance();
+        String sql = "select id_kh from formdata where cf_code = ?";
+        PreparedStatement pre = dbConnect.getConnection().prepareStatement(sql);
+        pre.setString(1, cf_code);
+        ResultSet rs = pre.executeQuery();
+        if (rs.next()) {
+            id = rs.getString("id_kh");
+        }
+        return id;
+    }
+
     public static String getPublicKey(String idCustomer) throws SQLException {
         String public_key = "";
         DBConnect dbConnect = DBConnect.getInstance();
-        String sql = "select public_key from public_key where id_kh = ?";
+        String sql = "select * from public_key where id_kh = ? and status = 1";
         PreparedStatement pre = dbConnect.getConnection().prepareStatement(sql);
         pre.setString(1, idCustomer);
         ResultSet rs = pre.executeQuery();
@@ -254,8 +279,26 @@ public class CustomerService {
 
     public static void addFormData(String id_kh, LocalDateTime date, String cf_code) throws SQLException {
         DBConnect dbConnect = DBConnect.getInstance();
-        String sql = "insert into formdata values ('" + id_kh + "','" + date + "','" + cf_code + "')";
+        int idSerial = 1;
+        String getSerial = "select Max(id) as maxId from formdata";
+        PreparedStatement pre = dbConnect.getConnection().prepareStatement(getSerial);
+        ResultSet rs = pre.executeQuery();
+        if (rs.next()) {
+            idSerial = rs.getInt("maxId") + 1;
+        }
+        String sql = "insert into formdata values ('" + idSerial + "','"  + id_kh + "','" + date + "','" + cf_code + "')";
         dbConnect.get().executeUpdate(sql);
+    }
+    public static void resetFormData(String confirmationCode) throws SQLException {
+        DBConnect dbConnect = DBConnect.getInstance();
+        String sql = "select * from formdata where cf_code = ?";
+        PreparedStatement pre = dbConnect.getConnection().prepareStatement(sql);
+        pre.setString(1, confirmationCode);
+        ResultSet rs = pre.executeQuery();
+        if (rs.next()) {
+            String resetEx_time = "update formdata set ex_time = '" + LocalDateTime.now() + "' where cf_code = '" + confirmationCode + "'";
+            pre.executeUpdate(resetEx_time);
+        }
     }
 
     public static boolean isValidConfirmationCode(String confirmationCode) throws SQLException {
@@ -278,26 +321,28 @@ public class CustomerService {
     public static void addPublic_key(String idCus, String public_key) throws SQLException {
         DBConnect dbConnect = DBConnect.getInstance();
         int idSerial = 1;
-        String getSerial = "select id from public_key order by id desc limit 1";
+        String getSerial = "select Max(id) as maxId from public_key";
         PreparedStatement pre = dbConnect.getConnection().prepareStatement(getSerial);
         ResultSet rs = pre.executeQuery();
         if (rs.next()) {
-            idSerial = rs.getInt("id") + 1;
+            idSerial = rs.getInt("maxId") + 1;
         }
         String sql = "insert into public_key values ('" + idSerial + "','" + idCus + "','" + public_key + "','" + LocalDateTime.now() + "','" + LocalDateTime.of(9999, 12, 31, 23, 59, 59) + "','" + "1" + "')";
         PreparedStatement pre2 = dbConnect.getConnection().prepareStatement(sql);
         pre2.executeUpdate(sql);
     }
 
-    public static void resetKey(String idCus, String publicKey_old, String publicKey, String privateKey) throws SQLException {
+    public static void resetKey(String idCus, String publicKey_old, String publicKey) throws SQLException {
         DBConnect dbConnect = DBConnect.getInstance();
         String sql = "select * from public_key where public_key = ?";
         PreparedStatement pre = dbConnect.getConnection().prepareStatement(sql);
         pre.setString(1, publicKey_old);
         ResultSet rs = pre.executeQuery();
         if (rs.next()){
-            String reset = "update public_key set status = '" + 0 + "' where public_key = '" + publicKey_old + "'";
-            pre.executeUpdate(reset);
+            String resetEx_time = "update public_key set ee_date = '" + LocalDateTime.now() + "' where public_key = '" + publicKey_old + "'";
+            String resetStatus = "update public_key set status = '" + 0 + "' where public_key = '" + publicKey_old + "'";
+            pre.executeUpdate(resetEx_time);
+            pre.executeUpdate(resetStatus);
             CustomerService.addPublic_key(idCus, publicKey);
         }
     }
@@ -317,5 +362,6 @@ public class CustomerService {
         String public_key = CustomerService.getPublicKey(customer.getId_customer());
         System.out.println(public_key);
     }
+
 
 }

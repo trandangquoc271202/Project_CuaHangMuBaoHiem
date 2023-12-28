@@ -38,6 +38,14 @@
     background-color: #FFD333;
     font-weight: bold;
 }
+.form-group .btn-key{
+    font-size: 16px;
+    text-decoration: none;
+}
+.form-group .btn-key:hover{
+    color: #FFD333;
+    font-weight: bold;
+}
 .form-group button:hover{
     background-color: #34ce57;
     color: #f7f7f7;

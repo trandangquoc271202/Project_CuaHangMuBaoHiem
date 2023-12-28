@@ -11,11 +11,17 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet(name = "DoChangePassword", value = "/doChangePassword")
+@WebServlet(name = "DoChangePassword", value = "/ChangePassword")
 public class DoChangePassword extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        HttpSession session = request.getSession();
+        String username = (String) session.getAttribute("tendangnhap");
+        if (username == null) {
+            response.sendRedirect("/Project_CuaHangMuBaoHiem_war/Login");
+        } else {
+            request.getRequestDispatcher("change-password.jsp").forward(request,response);
+        }
     }
 
     @Override

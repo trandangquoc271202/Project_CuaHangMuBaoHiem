@@ -119,7 +119,7 @@
                 <div class="tab-pane fade show active" id="v-pills-reset_pw" role="tabpanel"
                      aria-labelledby="v-pills-reset_pw-tab">
                     <div class="form-account">
-                        <form action="/Project_CuaHangMuBaoHiem_war/doResetKey" method="post">
+                        <form action="/Project_CuaHangMuBaoHiem_war/ResetKey" method="post">
                             <div class="title">Thay đổi thông tin khóa</div>
                             <span style="display: flex; justify-content: center; color: green; text-align: center; font-size: 18px;"><%=(success != null && success != "") ? success : ""%>
                             </span>

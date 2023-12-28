@@ -26,6 +26,7 @@ public class ManageProduct extends HttpServlet {
             customer = CustomerService.customer(username);
             if (customer == null || customer.getPermission() != 1) {
                 request.setAttribute("error", "Đăng nhập quản trị viên để truy cập. Vui lòng đăng nhập lại!");
+                session.invalidate();
                 request.getRequestDispatcher("login.jsp").forward(request, response);
                 return;
             }
