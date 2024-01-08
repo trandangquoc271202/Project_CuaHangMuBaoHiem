@@ -109,6 +109,7 @@ public class CustomerService {
         }
         return customer;
     }
+
     public static Customer customerById(String id) throws SQLException {
         Customer customer = null;
         DBConnect dbConnect = DBConnect.getInstance();
@@ -286,9 +287,10 @@ public class CustomerService {
         if (rs.next()) {
             idSerial = rs.getInt("maxId") + 1;
         }
-        String sql = "insert into formdata values ('" + idSerial + "','"  + id_kh + "','" + date + "','" + cf_code + "')";
+        String sql = "insert into formdata values ('" + idSerial + "','" + id_kh + "','" + date + "','" + cf_code + "')";
         dbConnect.get().executeUpdate(sql);
     }
+
     public static void resetFormData(String confirmationCode) throws SQLException {
         DBConnect dbConnect = DBConnect.getInstance();
         String sql = "select * from formdata where cf_code = ?";
@@ -318,6 +320,7 @@ public class CustomerService {
         }
         return isValid;
     }
+
     public static void addPublic_key(String idCus, String public_key) throws SQLException {
         DBConnect dbConnect = DBConnect.getInstance();
         int idSerial = 1;
@@ -333,17 +336,21 @@ public class CustomerService {
     }
 
     public static void resetKey(String idCus, String publicKey_old, String publicKey) throws SQLException {
-        DBConnect dbConnect = DBConnect.getInstance();
-        String sql = "select * from public_key where public_key = ?";
-        PreparedStatement pre = dbConnect.getConnection().prepareStatement(sql);
-        pre.setString(1, publicKey_old);
-        ResultSet rs = pre.executeQuery();
-        if (rs.next()){
-            String resetEx_time = "update public_key set ee_date = '" + LocalDateTime.now() + "' where public_key = '" + publicKey_old + "'";
-            String resetStatus = "update public_key set status = '" + 0 + "' where public_key = '" + publicKey_old + "'";
-            pre.executeUpdate(resetEx_time);
-            pre.executeUpdate(resetStatus);
+        if (publicKey_old == "" || publicKey_old == null) {
             CustomerService.addPublic_key(idCus, publicKey);
+        } else {
+            DBConnect dbConnect = DBConnect.getInstance();
+            String sql = "select * from public_key where public_key = ?";
+            PreparedStatement pre = dbConnect.getConnection().prepareStatement(sql);
+            pre.setString(1, publicKey_old);
+            ResultSet rs = pre.executeQuery();
+            if (rs.next()) {
+                String resetEx_time = "update public_key set ee_date = '" + LocalDateTime.now() + "' where public_key = '" + publicKey_old + "'";
+                String resetStatus = "update public_key set status = '" + 0 + "' where public_key = '" + publicKey_old + "'";
+                pre.executeUpdate(resetEx_time);
+                pre.executeUpdate(resetStatus);
+                CustomerService.addPublic_key(idCus, publicKey);
+            }
         }
     }
 
