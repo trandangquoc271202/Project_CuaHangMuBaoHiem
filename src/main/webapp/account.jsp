@@ -118,7 +118,7 @@ To change this template use File | Settings | File Templates.
                             <span style="color: red; font-size: 18px; text-align: center;"><%=(error != null && error != "") ? error : ""%></span>
                             <div class="form-group">
                                 <div class="f-btn">
-                                    <button type="submit"> Lưu</button>
+                                    <button type="submit">Lưu</button>
                                 </div>
                             </div>
                         </form>

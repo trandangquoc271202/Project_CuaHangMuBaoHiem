@@ -153,8 +153,8 @@
                     <div class="form-account">
                         <form id="myForm" action="/Project_CuaHangMuBaoHiem_war/InfoKey" method="post">
                             <div class="title">Thông tin khóa công khai</div>
+                            <span style="display: flex; justify-content: center; color: green; text-align: center; font-size: 18px;"><%=(success != null && success != "") ? success : ""%>
                             <div class="form-group-rp">
-                                <span style="display: flex; justify-content: center; color: green; text-align: center; font-size: 18px;"><%=(success != null && success != "") ? success : ""%>
                                 <div>
                                     <label class="form-label">Khóa công khai *</label>
                                     <textarea id="public_key" class="form-control no_text" style="height: 120px"
@@ -179,13 +179,13 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="confirmModalLabel">Xác nhận lưu</h5>
+                                <h5 class="modal-title" id="confirmModalLabel">Xác nhận thay đổi thông tin khóa</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
-                                Bạn có chắc chắn muốn lưu không?
+                                Bạn có chắc chắn muốn thay đổi thông tin khóa không?
                             </div>
                             <div class="modal-footer">
                                 <!-- Nút xác nhận -->
@@ -210,13 +210,6 @@
 <!-- Back to Top -->
 <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
-<script>
-    function saveForm() {
-        var publicKey = document.getElementById("public_key").value;
-        document.getElementById("publicKeyInput").value = publicKey;
-        document.getElementById("myForm").submit();
-    }
-</script>
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
@@ -230,6 +223,7 @@
 <!-- Template Javascript -->
 <script src="js/main.js"></script>
 <script src="js/valid.js" charset="utf-8"></script>
+<script src="js/saveForm.js" charset="utf-8"></script>
 </body>
 
 </html>
